@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
+    username: ${BALDWARS_DB_USER}
+    password: ${BALDWARS_DB_PASSWORD}
+
+security:
+  token:
+    secret: ${JWT_TOKEN_SECRET}
+
+logging:
+  level:
+    org:
+      springframework:
+        security: error

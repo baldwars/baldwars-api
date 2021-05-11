@@ -14,9 +14,16 @@ spring:
       use-new-id-generator-mappings: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
+<<<<<<< HEAD
     url: ${POSTGRES_URL}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
+=======
+    url: jdbc:${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
+    username: ${BALDWARS_DB_USER}
+    password: ${BALDWARS_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+>>>>>>> cb134a6 (Change config app.)
 
 security:
   token:

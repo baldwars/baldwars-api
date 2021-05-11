@@ -11,6 +11,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+      use-new-id-generator-mappings: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: ${POSTGRES_URL}

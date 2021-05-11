@@ -11,13 +11,11 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
-      use-new-id-generator-mappings: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
     url: jdbc:${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
     username: ${BALDWARS_DB_USER}
     password: ${BALDWARS_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
 
 security:
   token:

@@ -27,8 +27,8 @@ jobs:
         with:
           push: true
           tags: |
-            chukitipok/poke-exchange-api:latest
-            chukitipok/poke-exchange-api:${{ steps.tag_name.outputs.TAG_NAME }}
+            chukitipok/baldwars-api:latest
+            chukitipok/baldwars-api:${{ steps.tag_name.outputs.TAG_NAME }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 

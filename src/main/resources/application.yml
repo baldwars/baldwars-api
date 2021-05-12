@@ -1,6 +1,10 @@
 server:
   port: 8080
 
+postgres:
+  datasource:
+    jdbcUrl: ${BALDWARS_DB_URL}
+
 spring:
   h2:
     console:
@@ -11,15 +15,17 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
+        dialect: org.
         temp:
           use_jdbc_metadata_defaults: false
   datasource:
+    url: ${BALDWARS_DB_URL}
     username: ${BALDWARS_DB_USER}
     password: ${BALDWARS_DB_PASSWORD}
-    url: ${BALDWARS_DB_URL}
+    testWhileIdle: true
+    validationQuery: SELECT 1
 
 security:
   token:

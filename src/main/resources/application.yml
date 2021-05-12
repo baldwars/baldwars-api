@@ -13,10 +13,10 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
+    driverClassName: org.postgresql.Driver
     url: ${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
     username: ${BALDWARS_DB_USER}
     password: ${BALDWARS_DB_PASSWORD}
-    driverClassName: org.postgresql.Driver
 
 security:
   token:

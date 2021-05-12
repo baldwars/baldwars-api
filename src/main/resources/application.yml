@@ -25,8 +25,8 @@ spring:
   datasource:
     username: ${BALDWARS_DB_USER}
     password: ${BALDWARS_DB_PASSWORD}
-    url: ${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
-    driver-class-name: org.postgresql.Driver
+    url: ${BALDWARS_DB_URL}
+#    /${BALDWARS_DB_NAME}
 
 security:
   token:

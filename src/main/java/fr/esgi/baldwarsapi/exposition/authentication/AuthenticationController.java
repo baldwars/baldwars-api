@@ -1,35 +1,42 @@
 package fr.esgi.baldwarsapi.exposition.authentication;
 
-
+import fr.esgi.baldwarsapi.configuration.TokenProvider;
 import fr.esgi.baldwarsapi.domain.authentication.LoginRequestBody;
-import fr.esgi.baldwarsapi.configuration.JwtTokenUtil;
-import fr.esgi.baldwarsapi.domain.authentication.LoginRequestResponse;
-import fr.esgi.baldwarsapi.domain.user.UserService;
-import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
-import lombok.RequiredArgsConstructor;
+import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
+import fr.esgi.baldwarsapi.domain.user.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsService userDetailsService;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManager;
     private final UserService userService;
     private final RegisterRequestBodyValidator validator;
+
+    public AuthenticationController(
+            TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManager,
+            UserService userService, RegisterRequestBodyValidator validator)
+    {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.validator = validator;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequestBody body) {
@@ -49,24 +56,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginRequestResponse> login(@RequestBody LoginRequestBody request) throws Exception {
-        final var  username = request.getUsername();
-        final var password = request.getPassword();
+    public ResponseEntity<?> login(@RequestBody LoginRequestBody body) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(body.getUsername(), body.getPassword());
 
-        authenticate(username, password);
-        final var userDetails = userDetailsService.loadUserByUsername(username);
-        final var token = jwtTokenUtil.generateToken(userDetails);
+        var authentication = authenticationManager.getObject().authenticate(authenticationToken);
 
-        return ResponseEntity.ok(new LoginRequestResponse(token));
-    }
+        var token = tokenProvider.createToken(authentication);
+        var httpHeaders = new HttpHeaders();
+        httpHeaders.add(AUTHORIZATION, "Bearer " + token);
 
-    private void authenticate(@NonNull String username, @NonNull String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+        return new ResponseEntity<>(httpHeaders, HttpStatus.OK);
     }
 }

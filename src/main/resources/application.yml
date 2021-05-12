@@ -16,8 +16,7 @@ spring:
     url: ${BALDWARS_DB_URL}/${BALDWARS_DB_NAME}
     username: ${BALDWARS_DB_USER}
     password: ${BALDWARS_DB_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-    type: org.apache.tomcat.jdbc.pool.DataSource
+    driverClassName: org.postgresql.Driver
 
 security:
   token:

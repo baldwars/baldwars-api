@@ -14,11 +14,15 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserResponseMapper toUserResponse;
     private final UserService service;
+
+    public UserController(UserResponseMapper toUserResponse, UserService service) {
+        this.toUserResponse = toUserResponse;
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-@RequiredArgsConstructor
 public class UserEntityMapper {
     public UserEntity from(RegisterRequestBody body) {
         var entity = new UserEntity();

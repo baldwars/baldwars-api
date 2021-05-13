@@ -6,6 +6,7 @@ import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private final UserMapper toUser;
     private final UserEntityMapper toUserEntity;
     private final UserRepository repository;
+
+    public UserService(UserMapper toUser, UserEntityMapper toUserEntity, UserRepository repository) {
+        this.toUser = toUser;
+        this.toUserEntity = toUserEntity;
+        this.repository = repository;
+    }
 
     public List<User> findAll() {
         var users = new ArrayList<User>();

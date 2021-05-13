@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.configuration;
+package fr.esgi.baldwarsapi.security.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

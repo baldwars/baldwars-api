@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class RegisterRequestBodyValidator {
 
     public Boolean validate(RegisterRequestBody user) {

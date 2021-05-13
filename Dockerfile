@@ -23,4 +23,4 @@ RUN addgroup -S spring \
 
 USER spring:spring
 
-CMD ["java", "-jar", "./app.jar"]
+CMD java -jar ./app.jar

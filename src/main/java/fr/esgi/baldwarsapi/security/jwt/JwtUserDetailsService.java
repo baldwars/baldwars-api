@@ -1,7 +1,7 @@
-package fr.esgi.baldwarsapi.configuration;
+package fr.esgi.baldwarsapi.security.jwt;
 
-import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
+import fr.esgi.baldwarsapi.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,11 +2,9 @@ package fr.esgi.baldwarsapi.domain.user.mappers;
 
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.infrastructure.user.UserEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class UserMapper {
 
     public User from(UserEntity entity) {

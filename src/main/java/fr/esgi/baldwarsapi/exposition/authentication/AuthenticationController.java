@@ -1,8 +1,7 @@
 package fr.esgi.baldwarsapi.exposition.authentication;
 
-
 import fr.esgi.baldwarsapi.domain.authentication.LoginRequestBody;
-import fr.esgi.baldwarsapi.configuration.JwtTokenUtil;
+import fr.esgi.baldwarsapi.security.jwt.JwtTokenUtil;
 import fr.esgi.baldwarsapi.domain.authentication.LoginRequestResponse;
 import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;

@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.configuration;
+package fr.esgi.baldwarsapi.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtTokenUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 5*60*60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     @Value("${security.token.secret}")
     private String secret;
@@ -54,8 +54,9 @@ public class JwtTokenUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

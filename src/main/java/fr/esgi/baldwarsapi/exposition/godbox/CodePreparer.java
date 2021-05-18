@@ -18,9 +18,15 @@ public class CodePreparer {
         try {
             var files = new ArrayList<File>();
             var codeFile = createCodeFile(fileName, code);
-            files.add(codeFile);
 
-            return zipBase64(files);
+            files.add(codeFile);
+            var zipBase64 = zipBase64(files);
+
+            if (!codeFile.delete()) {
+                throw new RuntimeException("Failed to delete the file.");
+            }
+
+            return zipBase64;
 
         } catch (IOException exception) {
             return "";

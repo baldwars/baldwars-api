@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.exposition.godbox;
+package fr.esgi.baldwarsapi.domain.godbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.Unirest;

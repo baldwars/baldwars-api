@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class GodBoxController {
 
-    private final GodBoxService service;
+    private final GodBoxService godBoxService;
 
     @PostMapping("/run")
     public ResponseEntity<?> compileAndRun(@RequestBody UserCode userCode) {
         try {
-            var response = service.runWithCompilation(userCode.getUsername(), userCode.getCode());
+            var response = godBoxService.runWithCompilation(userCode.getUsername(), userCode.getCode());
             return ResponseEntity.ok(response);
 
         } catch (RuntimeException e) {

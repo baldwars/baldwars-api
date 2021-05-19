@@ -1,6 +1,7 @@
 package fr.esgi.baldwarsapi.domain.godbox;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -15,6 +16,7 @@ public class GodBoxFileService {
 
     private final String mainDirectoryPath;
 
+    @Autowired
     public GodBoxFileService() {
         mainDirectoryPath = "godbox/";
     }

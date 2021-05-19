@@ -8,19 +8,24 @@ import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class GodBoxService {
 
-    private final CodePreparer codePreparer;
+    private final GodBoxFileService godBoxFileService;
 
     private static final String url = "http://godbox:8080/run";
 
-    public GodBoxResponse runWithCompilation(String code) {
-        var encodedFiles = codePreparer.prepare("main.c", code);
-        var godBoxBody = new GodBoxBody(encodedFiles);
+    public GodBoxResponse runWithCompilation(String username, String code) {
+        var directoryPath = prepareUserFolder(username);
+        var fileName = directoryPath + "/main.c";
+        createFileFromUserCode(fileName, code);
+
+        var codeEncoded = getEncodedCode(directoryPath.toString());
+        var godBoxBody = new GodBoxBody(codeEncoded);
 
         var response = sendRequest(godBoxBody);
 
@@ -28,8 +33,29 @@ public class GodBoxService {
             throw new RuntimeException("An error occurred while communicating with external service.");
         }
 
-        return response.get();
+        godBoxFileService.deleteFile(fileName);
 
+        return response.get();
+    }
+
+    private Path prepareUserFolder(String username) {
+        return godBoxFileService.createDirectory(username);
+    }
+
+    private void createFileFromUserCode(String fileName, String code) {
+        godBoxFileService.createFileWithContent(fileName, code);
+    }
+
+    private String getEncodedCode(String directory) {
+        var optionalFiles = godBoxFileService.getFilesListFromDirectory(directory);
+        
+        if (optionalFiles.isEmpty()) return "";
+        
+        try {
+            return godBoxFileService.zipBase64(optionalFiles.get());
+        } catch (IOException e) {
+            return "";
+        }
     }
 
     private Optional<GodBoxResponse> sendRequest(GodBoxBody body) {

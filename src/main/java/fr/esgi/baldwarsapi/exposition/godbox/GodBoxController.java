@@ -18,7 +18,7 @@ public class GodBoxController {
     @PostMapping("/run")
     public ResponseEntity<?> compileAndRun(@RequestBody UserCode userCode) {
         try {
-            var response = service.runWithCompilation(userCode.getCode());
+            var response = service.runWithCompilation(userCode.getUsername(), userCode.getCode());
             return ResponseEntity.ok(response);
 
         } catch (RuntimeException e) {

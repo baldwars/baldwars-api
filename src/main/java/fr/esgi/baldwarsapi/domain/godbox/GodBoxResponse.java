@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.exposition.godbox;
+package fr.esgi.baldwarsapi.domain.godbox;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

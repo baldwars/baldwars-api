@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.exposition.godbox;
+package fr.esgi.baldwarsapi.domain.godbox;
 
 import lombok.Data;
 import org.springframework.stereotype.Service;

@@ -24,18 +24,23 @@ public class GodBoxService {
         var fileName = directoryPath + "/main.c";
         createFileFromUserCode(fileName, code);
 
-        var codeEncoded = getEncodedCode(directoryPath.toString());
-        var godBoxBody = new GodBoxBody(codeEncoded);
+        try {
+            var codeEncoded = getEncodedCode(directoryPath.toString());
+            var godBoxBody = new GodBoxBody(username, codeEncoded);
 
-        var response = sendRequest(godBoxBody);
+            var response = sendRequest(godBoxBody);
 
-        if (response.isEmpty()) {
-            throw new RuntimeException("An error occurred while communicating with external service.");
+            if (response.isEmpty()) {
+                throw new RuntimeException("An error occurred while communicating with external service.");
+            }
+
+            godBoxFileService.deleteFile(fileName);
+            return response.get();
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("An error occurred while zipping folder");
         }
-
-        godBoxFileService.deleteFile(fileName);
-
-        return response.get();
     }
 
     private Path prepareUserFolder(String username) {
@@ -46,16 +51,8 @@ public class GodBoxService {
         godBoxFileService.createFileWithContent(fileName, code);
     }
 
-    private String getEncodedCode(String directory) {
-        var optionalFiles = godBoxFileService.getFilesListFromDirectory(directory);
-        
-        if (optionalFiles.isEmpty()) return "";
-        
-        try {
-            return godBoxFileService.zipBase64(optionalFiles.get());
-        } catch (IOException e) {
-            return "";
-        }
+    private String getEncodedCode(String directory) throws IOException {
+        return godBoxFileService.zipBase64(directory);
     }
 
     private Optional<GodBoxResponse> sendRequest(GodBoxBody body) {

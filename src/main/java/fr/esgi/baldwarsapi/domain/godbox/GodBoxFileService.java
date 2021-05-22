@@ -1,14 +1,14 @@
 package fr.esgi.baldwarsapi.domain.godbox;
 
 import lombok.Data;
+import net.lingala.zip4j.ZipFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @Data
 @Service
@@ -42,7 +42,7 @@ public class GodBoxFileService {
         }
     }
 
-        public boolean deleteFile(String fileName) {
+    public boolean deleteFile(String fileName) {
         var file = new File(fileName);
         var isDeleted = false;
 
@@ -53,41 +53,13 @@ public class GodBoxFileService {
         return isDeleted;
     }
 
-    public Optional<List<File>> getFilesListFromDirectory(String directoryName) {
-        var directory = new File(directoryName);
-        var files = new ArrayList<File>();
+    public String zipBase64(String folder) throws IOException {
+        var zipFileName = folder + ".zip";
+        new ZipFile(zipFileName).addFolder(new File(folder));
 
-        if (!directory.exists() || !directory.isDirectory()) return Optional.empty();
+        var zipFile = new File(zipFileName);
 
-        var list = directory.listFiles();
-
-        if (list == null) return Optional.empty();
-
-        for (var file : list) {
-            if (file.isFile()) {
-                files.add(file);
-            }
-        }
-
-        return Optional.of(files);
-    }
-
-    public String zipBase64(List<File> files) throws IOException {
-        byte[] buffer = new byte[1024];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
-            for (File f : files) {
-                try (FileInputStream fis = new FileInputStream(f)) {
-                    zos.putNextEntry(new ZipEntry(f.getName()));
-                    int length;
-                    while ((length = fis.read(buffer)) > 0) {
-                        zos.write(buffer, 0, length);
-                    }
-                    zos.closeEntry();
-                }
-            }
-        }
-        byte[] bytes = baos.toByteArray();
+        byte[] bytes = Files.readAllBytes(zipFile.toPath());
         return Base64.getEncoder().encodeToString(bytes);
     }
 }

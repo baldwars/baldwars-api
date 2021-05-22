@@ -23,6 +23,6 @@ RUN addgroup -S spring \
 
 USER spring:spring
 
-WORKDIR /home/spring/
+WORKDIR /home/spring
 
 CMD java -jar ./app.jar

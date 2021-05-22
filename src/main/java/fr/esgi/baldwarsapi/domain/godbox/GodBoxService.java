@@ -70,8 +70,8 @@ public class GodBoxService {
             System.out.println("json response status text:");
             System.out.println(jsonResponse.getStatusText());
 
-            System.out.println("json response raw body:");
-            System.out.println(jsonResponse.getRawBody().toString());
+            System.out.println("json response body:");
+            System.out.println(jsonResponse.getBody().toString());
 
             if (jsonResponse.getStatus() != HttpStatus.SC_OK) {
                 return Optional.empty();

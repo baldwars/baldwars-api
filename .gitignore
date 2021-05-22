@@ -37,3 +37,6 @@ build/
 
 ### Environment ###
 .env
+
+### GODBOX ###
+godbox/

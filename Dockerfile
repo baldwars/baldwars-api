@@ -16,12 +16,12 @@ FROM openjdk:17-jdk-alpine
 
 WORKDIR /usr/src/app
 
-USER spring:spring
-
 COPY --from=build /usr/src/app/target/*.jar /home/spring/app.jar
 
 RUN addgroup -S spring \
     && adduser -S spring -G spring
+
+USER spring:spring
 
 WORKDIR /home/spring/
 

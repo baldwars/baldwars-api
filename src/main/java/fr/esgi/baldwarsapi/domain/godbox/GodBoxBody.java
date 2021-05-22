@@ -16,7 +16,8 @@ public class GodBoxBody {
     private String filesBase64;
 
     public GodBoxBody(String username, String filesBase64) {
-        this.compileScript = "/usr/local/gcc-11.1.0/bin/gcc " + username + "/main.c -o out";
+//        this.compileScript = "/usr/local/gcc-11.1.0/bin/gcc " + username + "/main.c -o out";
+        this.compileScript = "/usr/local/gcc-11.1.0/bin/gcc main.c -o out";
         this.runScript = "./out";
         this.filesBase64 = filesBase64;
     }

@@ -20,12 +20,14 @@ public class GodBoxService {
     private static final String url = "http://godbox:8080/run";
 
     public GodBoxResponse runWithCompilation(String username, String code) {
-        var directoryPath = prepareUserFolder(username);
-        var fileName = directoryPath + "/main.c";
+//        var directoryPath = prepareUserFolder(username);
+//        var fileName = directoryPath + "/main.c";
+        var fileName = "main.c";
         createFileFromUserCode(fileName, code);
 
         try {
-            var codeEncoded = getEncodedCode(directoryPath.toString());
+//            var codeEncoded = getEncodedCode(directoryPath.toString());
+            var codeEncoded = getEncodedCode(fileName);
             var godBoxBody = new GodBoxBody(username, codeEncoded);
 
             var response = sendRequest(godBoxBody);

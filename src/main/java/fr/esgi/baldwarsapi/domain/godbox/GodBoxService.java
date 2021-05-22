@@ -64,8 +64,8 @@ public class GodBoxService {
             var json = objMapper.writeValueAsString(body);
             System.out.println("json: " + json);
             var jsonResponse = Unirest.post(url).body(json).asJson();
-            System.out.println("json response:");
-            System.out.println(jsonResponse);
+            System.out.println("json response status:");
+            System.out.println(jsonResponse.getStatus());
 
             if (jsonResponse.getStatus() != HttpStatus.SC_OK) {
                 return Optional.empty();

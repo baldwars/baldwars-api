@@ -54,7 +54,8 @@ public class GodBoxFileService {
     }
 
     public String zipBase64(String folder) throws IOException {
-        var zipFileName = folder + ".zip";
+//        var zipFileName = folder + ".zip";
+        var zipFileName = "code.zip";
 //        new ZipFile(zipFileName).addFolder(new File(folder));
         new ZipFile(zipFileName).addFile(folder);
 

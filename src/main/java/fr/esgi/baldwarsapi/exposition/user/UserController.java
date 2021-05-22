@@ -4,7 +4,6 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserResponseMapper;
 import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

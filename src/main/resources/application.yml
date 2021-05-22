@@ -11,14 +11,15 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: ${BALDWARS_DB_URL}
-    username: ${BALDWARS_DB_USER}
-    password: ${BALDWARS_DB_PASSWORD}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
 security:
   token:
-    secret: Bearer ${JWT_TOKEN_SECRET}
+    secret: ${JWT_TOKEN_SECRET}
 
 logging:
   level:

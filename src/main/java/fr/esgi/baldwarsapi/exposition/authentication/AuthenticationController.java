@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -57,6 +58,11 @@ public class AuthenticationController {
         final var token = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new LoginRequestResponse(token));
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkIfTokenIsStillValid() {
+        return ResponseEntity.ok().build();
     }
 
     private void authenticate(@NonNull String username, @NonNull String password) throws Exception {

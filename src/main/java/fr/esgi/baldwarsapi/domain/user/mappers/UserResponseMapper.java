@@ -2,7 +2,6 @@ package fr.esgi.baldwarsapi.domain.user.mappers;
 
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component

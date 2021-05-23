@@ -2,7 +2,6 @@ package fr.esgi.baldwarsapi.domain.godbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +20,12 @@ public class GodBoxService {
     private static final String url = "http://godbox:8080/run";
 
     public GodBoxResponse runWithCompilation(String username, String code) {
-//        var directoryPath = prepareUserFolder(username);
-//        var fileName = directoryPath + "/main.c";
-        var fileName = "main.c";
+        var directoryPath = prepareUserFolder(username);
+        var fileName = directoryPath + "/main.c";
         createFileFromUserCode(fileName, code);
 
         try {
-//            var codeEncoded = getEncodedCode(directoryPath.toString());
-            var codeEncoded = getEncodedCode(fileName);
+            var codeEncoded = getEncodedCode(directoryPath.toString());
             var godBoxBody = new GodBoxBody(username, codeEncoded);
 
             var response = sendRequest(godBoxBody);
@@ -62,7 +60,8 @@ public class GodBoxService {
             var objMapper = new ObjectMapper();
             var json = objMapper.writeValueAsString(body);
             System.out.println("json: " + json);
-            var jsonResponse = Unirest.post(url).body(json).asJson();
+//            var jsonResponse = Unirest.post(url).body(json).asJson();
+            var jsonResponse = Unirest.post(url).body(json).asJsonAsync().get();
             System.out.println("json response status:");
             System.out.println(jsonResponse.getStatus());
 
@@ -81,7 +80,7 @@ public class GodBoxService {
 
             return Optional.of(response);
 
-        } catch (UnirestException | IOException e) {
+        } catch (IOException | InterruptedException | ExecutionException e) {
             System.out.println(e.getMessage());
             return Optional.empty();
         }

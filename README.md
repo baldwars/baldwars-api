@@ -8,6 +8,8 @@
 - Set your environment variables following `.env.example`
 - Execute the command: `docker-compose up`
 
+> *Note: To rebuild the container use the command `docker-compose up --build`.*
+
 ### Locally: 
 
 You can use H2 database, for this you will need to set the following environment variables before running the application:

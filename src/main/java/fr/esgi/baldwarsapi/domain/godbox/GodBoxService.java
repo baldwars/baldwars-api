@@ -17,7 +17,8 @@ public class GodBoxService {
 
     private final GodBoxFileService godBoxFileService;
 
-    private static final String url = "http://qtmsheep.com:31449/run";
+    private static final String url = "http://godbox:8080/run";
+//    private static final String url = "http://qtmsheep.com:31449/run";
 
     public GodBoxResponse runWithCompilation(String username, String code) {
         var directoryPath = prepareUserFolder(username);
@@ -59,17 +60,11 @@ public class GodBoxService {
         try {
             var objMapper = new ObjectMapper();
             var json = objMapper.writeValueAsString(body);
-            System.out.println("json: " + json);
-//            var jsonResponse = Unirest.post(url).body(json).asJson();
-            var jsonResponse = Unirest.post(url).body(json).asJsonAsync().get();
-            System.out.println("json response status:");
-            System.out.println(jsonResponse.getStatus());
 
-            System.out.println("json response status text:");
-            System.out.println(jsonResponse.getStatusText());
-
-            System.out.println("json response body:");
-            System.out.println(jsonResponse.getBody().toString());
+            var jsonResponse = Unirest.post(url)
+                    .header("accept", "application/json")
+                    .header("content-type", "application/json")
+                    .body(json).asJsonAsync().get();
 
             if (jsonResponse.getStatus() != HttpStatus.SC_OK) {
                 return Optional.empty();
@@ -81,7 +76,6 @@ public class GodBoxService {
             return Optional.of(response);
 
         } catch (IOException | InterruptedException | ExecutionException e) {
-            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }

@@ -24,9 +24,9 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-//    private final AuthenticationManager authenticationManager;
-//    private final JwtTokenUtil jwtTokenUtil;
-//    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsService userDetailsService;
     private final UserService userService;
     private final RegisterRequestBodyValidator validator;
 
@@ -47,30 +47,30 @@ public class AuthenticationController {
         }
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginRequestResponse> login(@RequestBody LoginRequestBody request) throws Exception {
-//        final var  username = request.getUsername();
-//        final var password = request.getPassword();
-//
-//        authenticate(username, password);
-//        final var userDetails = userDetailsService.loadUserByUsername(username);
-//        final var token = jwtTokenUtil.generateToken(userDetails);
-//
-//        return ResponseEntity.ok(new LoginRequestResponse(token));
-//    }
-//
-//    @GetMapping("/check")
-//    public ResponseEntity<?> checkIfTokenIsStillValid() {
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    private void authenticate(@NonNull String username, @NonNull String password) throws Exception {
-//        try {
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-//        } catch (DisabledException e) {
-//            throw new Exception("USER_DISABLED", e);
-//        } catch (BadCredentialsException e) {
-//            throw new Exception("INVALID_CREDENTIALS", e);
-//        }
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginRequestResponse> login(@RequestBody LoginRequestBody request) throws Exception {
+        final var  username = request.getUsername();
+        final var password = request.getPassword();
+
+        authenticate(username, password);
+        final var userDetails = userDetailsService.loadUserByUsername(username);
+        final var token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new LoginRequestResponse(token));
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<?> checkIfTokenIsStillValid() {
+        return ResponseEntity.ok().build();
+    }
+
+    private void authenticate(@NonNull String username, @NonNull String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
 }

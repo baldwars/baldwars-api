@@ -24,9 +24,9 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final UserDetailsService userDetailsService;
+//    private final AuthenticationManager authenticationManager;
+//    private final JwtTokenUtil jwtTokenUtil;
+//    private final UserDetailsService userDetailsService;
     private final UserService userService;
     private final RegisterRequestBodyValidator validator;
 

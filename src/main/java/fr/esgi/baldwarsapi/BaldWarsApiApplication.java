@@ -10,5 +10,4 @@ public class BaldWarsApiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(BaldWarsApiApplication.class, args);
     }
-
 }

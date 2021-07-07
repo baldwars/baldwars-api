@@ -16,11 +16,10 @@ public class GodBoxBody {
 
     public GodBoxBody(String username, String filesBase64) {
         this.phases = new ArrayList<>();
-        var compilation = new CompilationPhase(
-                "Compilation",
-                username);
 
+        var compilation = new CompilationPhase("Compilation", username);
         var execution = new ExecutionPhase("Execution", "out");
+
         this.phases.add(compilation);
         this.phases.add(execution);
         this.filesBase64 = filesBase64;

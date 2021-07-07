@@ -21,4 +21,22 @@ public class PhaseResponse {
 
     @JsonProperty("stderr")
     private String stderr;
+
+    @JsonProperty("time")
+    private Double time;
+
+    @JsonProperty("time_wall")
+    private Double timeWall;
+
+    @JsonProperty("used_memory")
+    private Long usedMemory;
+
+    @JsonProperty("sandbox_status")
+    private String sandboxStatus;
+
+    @JsonProperty("csw_voluntary")
+    private Integer cswVoluntary;
+
+    @JsonProperty("csw_forced")
+    private Integer cswForced;
 }

@@ -17,8 +17,7 @@ public class GodBoxService {
 
     private final GodBoxFileService godBoxFileService;
 
-    private static final String url = "http://godbox:8080/run";
-//    private static final String url = "http://qtmsheep.com:31449/run";
+    private static final String url = "https://api.godbox.qtmsheep.com/run";
 
     public GodBoxResponse runWithCompilation(String username, String code) {
         var directoryPath = prepareUserFolder(username);

@@ -12,5 +12,5 @@ public class UserResponse {
     private String username;
     private String firstName;
     private String lastName;
-    private Integer rank;
+    private Integer eloPoints;
 }

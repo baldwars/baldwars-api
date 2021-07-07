@@ -13,7 +13,7 @@ public class UserResponseMapper {
         userResponse.setUsername(user.getUsername());
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
-        userResponse.setRank(user.getRank());
+        userResponse.setEloPoints(user.getEloPoints());
 
         return userResponse;
     }

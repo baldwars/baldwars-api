@@ -2,7 +2,6 @@ package fr.esgi.baldwarsapi.domain.user.mappers;
 
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.infrastructure.user.UserEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public class UserEntityMapper {
         entity.setLastName(body.getLastName());
         entity.setEmail(body.getEmail());
         entity.setPassword(body.getPassword());
-        entity.setRank(0);
+        entity.setEloPoints(0);
         entity.setRegistered(LocalDateTime.now());
 
         return entity;

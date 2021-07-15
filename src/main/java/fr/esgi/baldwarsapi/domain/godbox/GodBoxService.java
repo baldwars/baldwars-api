@@ -20,12 +20,13 @@ public class GodBoxService {
     private static final String url = "https://api.godbox.qtmsheep.com/run";
 
     public GodBoxResponse runWithCompilation(String username, String code) {
-        var directoryPath = prepareUserFolder(username);
-        var fileName = directoryPath + "/main.c";
-        createFileFromUserCode(fileName, code);
+//        var directoryPath = prepareUserFolder(username);
+//        var fileName = directoryPath + "/main.c";
+//        createFileFromUserCode(fileName, code);
 
         try {
-            var codeEncoded = getEncodedCode(directoryPath.toString());
+            var codeEncoded = getEncodedCode("game-engine/src");
+//            var codeEncoded = getEncodedCode(directoryPath.toString());
             var godBoxBody = new GodBoxBody(username, codeEncoded);
 
             var response = sendRequest(godBoxBody);
@@ -34,7 +35,7 @@ public class GodBoxService {
                 throw new RuntimeException("An error occurred while communicating with external service.");
             }
 
-            godBoxFileService.deleteFile(fileName);
+//            godBoxFileService.deleteFile(fileName);
             return response.get();
 
         } catch (IOException e) {
@@ -60,12 +61,16 @@ public class GodBoxService {
             var objMapper = new ObjectMapper();
             var json = objMapper.writeValueAsString(body);
 
+            System.out.println(json.length());
+
             var jsonResponse = Unirest.post(url)
                     .header("accept", "application/json")
                     .header("content-type", "application/json")
                     .body(json).asJsonAsync().get();
 
             if (jsonResponse.getStatus() != HttpStatus.SC_OK) {
+                System.out.println("response status: " + jsonResponse.getStatus());
+                System.out.println("response body: " + jsonResponse.getBody().toString());
                 return Optional.empty();
             }
 

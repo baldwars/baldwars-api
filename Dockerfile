@@ -2,6 +2,7 @@ FROM maven:3-openjdk-11 as build
 
 WORKDIR /usr/src/app
 
+COPY game-engine ./game-engine
 COPY pom.xml .
 
 RUN mvn dependency:go-offline

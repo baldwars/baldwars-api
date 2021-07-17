@@ -25,7 +25,7 @@ public class GodBoxService {
 //        createFileFromUserCode(fileName, code);
 
         try {
-            var codeEncoded = getEncodedCode("game-engine/src");
+            var codeEncoded = getEncodedCode("game-engine");
 //            var codeEncoded = getEncodedCode(directoryPath.toString());
             var godBoxBody = new GodBoxBody(username, codeEncoded);
 

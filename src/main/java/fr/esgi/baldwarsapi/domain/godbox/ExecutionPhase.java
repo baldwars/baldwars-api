@@ -9,7 +9,10 @@ public class ExecutionPhase extends Phase {
 
     public ExecutionPhase(String name, String script) {
         super(name);
-        this.script = "./" + script;
+        this.script = "cd game-engine\n" +
+                "cd build\n" +
+                "./BaldWars_Game";
+//        this.script = "./" + script;
     }
 
     public String getScript() {

@@ -63,7 +63,7 @@ Nodes *nodes_reverse(Nodes *);
 
 // UTIL
 Nodes *convert_grid_to_nodes(int **, size_t, size_t);
-size_t hash_node(Node *);
+unsigned int hash_node(Node *);
 
 // HASH TABLE
 Entry *entry_init(Node *, void *);
@@ -88,6 +88,7 @@ Node *priority_queue_dequeue(PriorityQueue *);
 unsigned short priority_queue_is_empty(PriorityQueue *);
 
 // FILE
-char *get_file_content(char * path);
+char *get_file_content(char *);
+char *no_space(char *);
 
 #endif //UNTITLED_UTILS_H

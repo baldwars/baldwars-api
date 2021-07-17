@@ -8,12 +8,11 @@ public class CompilationPhase extends Phase {
 
     public CompilationPhase(String name, String username) {
         super(name);
-        this.script = "mkdir build\n" +
+        this.script = "cd game-engine\n" +
+                "mkdir build\n" +
                 "cd build\n" +
-                "cmake ../src\n" +
+                "cmake ..\n" +
                 "cmake --build .";
-//        this.script = "/usr/local/gcc-11.1.0/bin/gcc src/main.c -o out";
-//        this.script = "/usr/local/gcc-11.1.0/bin/gcc " + username + "/main.c -o out";
     }
 
     public String getScript() {

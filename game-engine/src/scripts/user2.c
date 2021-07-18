@@ -1,9 +1,8 @@
 #include "scripts.h"
-#include <stdio.h>
 
 void run_script_user2()
 {
-    set_weapon(WEAPON_PISTOL); // Cost 1 action point
+    set_weapon(WEAPON_PISTOL);
 
     size_t enemy = get_nearest_enemy();
 

@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.analysis.plagiarism;
+package fr.esgi.baldwarsapi.domain.analysis.plagiarism.visitors;
 
 public class LocalizedElement {
 

@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.analysis.plagiarism;
+package fr.esgi.baldwarsapi.domain.analysis.plagiarism.visitors;
 
 import fr.esgi.baldwarsapi.antlr4.CLexer;
 import fr.esgi.baldwarsapi.antlr4.CParser;

@@ -6,10 +6,8 @@ import lombok.SneakyThrows;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.antlr.v4.runtime.CharStreams.fromString;
 
@@ -20,21 +18,14 @@ public class TransformerVisitor {
 
     @SneakyThrows
     public TransformerVisitor(String source) {
-        try {
-            var inputStream = fromString(source);
-            var lexer = new CLexer(inputStream);
-            var tokenStream = new CommonTokenStream(lexer);
-            var parser = new CParser(tokenStream);
-            context = parser.blockItem();
+        var inputStream = fromString(source);
+        var lexer = new CLexer(inputStream);
+        var tokenStream = new CommonTokenStream(lexer);
+        var parser = new CParser(tokenStream);
+        context = parser.blockItem();
 
-            var path = Paths.get(source);
-            var content = Files.readAllLines(path);
-
-            variableVisitor = new VariableTransformerVisitor(content);
-
-        } catch (IOException e) {
-            throw new FileNotFoundException();
-        }
+        var content = new ArrayList<>(Arrays.asList(source.split("\n")));
+        variableVisitor = new VariableTransformerVisitor(content);
     }
 
     public String visit() {

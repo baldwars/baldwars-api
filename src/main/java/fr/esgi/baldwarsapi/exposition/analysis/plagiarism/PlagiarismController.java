@@ -1,5 +1,6 @@
 package fr.esgi.baldwarsapi.exposition.analysis.plagiarism;
 
+import fr.esgi.baldwarsapi.domain.analysis.plagiarism.PlagiarismScript;
 import fr.esgi.baldwarsapi.domain.analysis.plagiarism.PlagiarismService;
 import fr.esgi.baldwarsapi.domain.scripts.models.Script;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
@@ -22,7 +23,7 @@ public class PlagiarismController {
     private final PlagiarismService service;
 
     @PostMapping
-    public ResponseEntity<List<Script>> analyse(@RequestBody Script script) {
+    public ResponseEntity<List<PlagiarismScript>> analyse(@RequestBody Script script) {
         try {
             this.userService.findOneById(script.getOwner());
             var scripts = this.service.analyse(script);

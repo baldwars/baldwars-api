@@ -16,21 +16,22 @@ public class PlagiarismService {
     private final ScriptService scriptService;
     private final PlagiarismSimilarity similarityService;
 
-    public List<Script> analyse(Script source) {
+    public List<PlagiarismScript> analyse(Script source) {
         var scripts = this.scriptService.findAll();
         var userScripts = this.scriptService.findAllUserScripts(source.getOwner());
 
         scripts.removeAll(userScripts);
 
         var sourceContent = new TransformerVisitor(source.getContent()).visit();
-        var similarScripts = new ArrayList<Script>();
+        var similarScripts = new ArrayList<PlagiarismScript>();
 
         for (var script : scripts) {
             var scriptContent = new TransformerVisitor(script.getContent()).visit();
             var similarity = this.similarityService.winnowing(sourceContent, scriptContent);
 
             if (isCheater(similarity)) {
-                similarScripts.add(script);
+                var plagiarism = new PlagiarismScript(similarity, script);
+                similarScripts.add(plagiarism);
             }
         }
 

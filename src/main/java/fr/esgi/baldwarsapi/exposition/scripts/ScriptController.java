@@ -68,4 +68,11 @@ public class ScriptController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<Script>> findAll() {
+        var scripts = this.service.findAll();
+
+        return ResponseEntity.ok(scripts);
+    }
 }

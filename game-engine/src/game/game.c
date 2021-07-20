@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "game.h"
-#include "scripts.h"
-#include "path_finding.h"
+#include "../scripts/scripts.h"
+#include "../utils/path_finding.h"
 
 
 int **map_;
@@ -182,13 +182,13 @@ size_t get_distance_between(Cell *a, Cell *b)
 void print_cells(Cells *cells)
 {
     printf("[ ");
-    for (int i = 0; i < cells->length; ++i) {
+    for (size_t i = 0; i < cells->length; ++i) {
         Cell *cell = cells->items[i];
         if (i == cells->length - 1) {
-            printf("{ %u ; %u }", cell->x, cell->y);
+            printf("{ %zu ; %zu }", cell->x, cell->y);
         }
         else {
-            printf("{ %u ; %u }, ", cell->x, cell->y);
+            printf("{ %zu ; %zu }, ", cell->x, cell->y);
         }
     }
     printf(" ]\n");
@@ -214,7 +214,7 @@ Weapon *weapon_init(size_t id, const char *name, size_t damage, size_t level,
 
 Weapon *get_weapon_by_id(size_t weapon_id)
 {
-    for (int i = 0; i < weapons_->length; ++i) {
+    for (size_t i = 0; i < weapons_->length; ++i) {
         Weapon *weapon = weapons_->items[i];
         if (weapon->id == weapon_id) {
             return weapon;
@@ -249,7 +249,7 @@ Weapon *load_weapon(cJSON *weapon)
 
 Weapons *load_weapons()
 {
-    char *buffer = get_file_content("./weapons.json");
+    char *buffer = get_file_content("../resources/weapons.json");
 
     cJSON *item;
     cJSON *parsed = cJSON_Parse(buffer);
@@ -257,9 +257,9 @@ Weapons *load_weapons()
 
     Weapons *weapons = weapons_init();
 
-    for (int i = 0; i < weapons_length; ++i)
+    for (size_t i = 0; i < weapons_length; ++i)
     {
-        item = cJSON_GetArrayItem(parsed, i);
+        item = cJSON_GetArrayItem(parsed, (int)i);
         weapons_push_back(weapons, load_weapon(item));
     }
 
@@ -309,7 +309,7 @@ unsigned short is_in_weapon_range(Warrior *warrior, Cell *target)
     return 1;
 }
 
-Warrior *warrior_init(unsigned short id, const char *name, size_t level, int health, size_t moves, size_t action)
+Warrior *warrior_init(size_t id, const char *name, size_t level, int health, size_t moves, size_t action)
 {
     Warrior *warrior = malloc(sizeof(Warrior));
     *warrior = (Warrior){
@@ -350,16 +350,15 @@ Warrior *load_warrior(cJSON *warrior)
 
 Warriors *load_warriors()
 {
-    char *buffer = get_file_content("./warriors.json");
+    char *buffer = get_file_content("../resources/warriors.json");
 
-    cJSON *item;
     cJSON *parsed = cJSON_Parse(buffer);
-    size_t warriors_length = cJSON_GetArraySize(parsed);
+    int warriors_length = cJSON_GetArraySize(parsed);
     Warriors *warriors = warriors_init();
 
     for (int i = 0; i < warriors_length; ++i)
     {
-        item = cJSON_GetArrayItem(parsed, i);
+        cJSON *item = cJSON_GetArrayItem(parsed, i);
         warriors_push_back(warriors, load_warrior(item));
     }
 
@@ -410,7 +409,7 @@ Warrior *get_winner(Warriors *warriors)
     Warrior *warrior2 = warriors->items[1];
     Warrior *survivor;
 
-    if ((warrior1->health == warrior1->max_health && warrior2->health == warrior2->max_health)
+    if ((warrior1->health == (int)warrior1->max_health && warrior2->health == (int)warrior2->max_health)
             ||
         (warrior1->health == warrior2->health))
     {
@@ -454,22 +453,23 @@ cJSON *game_start()
     warriors_ = load_warriors();
     weapons_ = load_weapons();
     map_ = generate_map(warriors_);
-
+    
     size_t current_round = 1;
     unsigned short fight_is_over = 0;
     unsigned short enemy_is_dead = 0;
 
     while (!fight_is_over) {
         json_warriors_ = NULL;
-        for (int i = 0; i < warriors_->length; ++i) {
+        for (size_t i = 0; i < warriors_->length; ++i) {
             json_current_warrior_actions_ = NULL;
-            current_warrior_ = warriors_->items[i];
 
+            current_warrior_ = warriors_->items[i];
+            
             size_t moves = current_warrior_->moves;
             size_t actions = current_warrior_->actions;
 
             if (i == 0) {
-                run_script_user1();
+                run_script_user1();    
             }
             else {
                 run_script_user2();
@@ -493,7 +493,7 @@ cJSON *game_start()
     }
 
     Warrior *winner = get_winner(warriors_);
-
+    
     return log_fight(winner);
 }
 
@@ -632,7 +632,7 @@ unsigned short cells_contains(Cells *cells, Cell *cell)
 
     Cell *current;
 
-    for (int i = 0; i < cells->length; ++i) {
+    for (size_t i = 0; i < cells->length; ++i) {
         current = cells->items[i];
 
         if (current->x == cell->x && current->y == cell->y) {
@@ -733,11 +733,11 @@ void no_walls_in_corners(int ***map)
 
 void generate_walls_on_map(int ***map)
 {
-    size_t min = MAP_SIZE * MAP_SIZE * WALLS_MIN_RATIO;
-    size_t max = MAP_SIZE * MAP_SIZE * WALLS_MAX_RATIO;
+    size_t min = (size_t)(MAP_SIZE * MAP_SIZE * WALLS_MIN_RATIO);
+    size_t max = (size_t)(MAP_SIZE * MAP_SIZE * WALLS_MAX_RATIO);
     size_t walls_number = rand() % (max - min + 1) + min;
 
-    for (int i = 0; i < walls_number; ++i) {
+    for (size_t i = 0; i < walls_number; ++i) {
         size_t random_x, random_y;
 
         do {
@@ -753,7 +753,7 @@ void locate_warriors_on_map(int *** map, Warriors *warriors)
 {
     size_t random_x, random_y;
 
-    for (int i = 0; i < warriors->length; ++i) {
+    for (size_t i = 0; i < warriors->length; ++i) {
         do {
             if (i % 2 == 0) {
                 random_y = rand() % MAP_SIZE / 2;
@@ -786,21 +786,21 @@ void print_map(int **map)
 void print_warrior(Warrior *warrior)
 {
     printf("%s:\n", warrior->name);
-    printf("  id: %u\n", warrior->id);
-    printf("  level: %u\n", warrior->level);
-    printf("  health: %u\n", warrior->health);
-    printf("  moves: %u\n", warrior->moves);
-    printf("  actions: %u\n", warrior->actions);
+    printf("  id: %zu\n", warrior->id);
+    printf("  level: %zu\n", warrior->level);
+    printf("  health: %d\n", warrior->health);
+    printf("  moves: %zu\n", warrior->moves);
+    printf("  actions: %zu\n", warrior->actions);
     printf("  weapon:\n");
-    printf("    id: %u\n", warrior->weapon->id);
-    printf("    level: %u\n", warrior->weapon->level);
-    printf("    cost: %u\n", warrior->weapon->cost);
-    printf("    damage: %u\n", warrior->weapon->damage);
+    printf("    id: %zu\n", warrior->weapon->id);
+    printf("    level: %zu\n", warrior->weapon->level);
+    printf("    cost: %zu\n", warrior->weapon->cost);
+    printf("    damage: %zu\n", warrior->weapon->damage);
 }
 
 void print_warriors(Warriors *warriors)
 {
-    for (int i = 0; i < warriors->length; ++i) {
+    for (size_t i = 0; i < warriors->length; ++i) {
         print_warrior(warriors->items[i]);
         printf("\n");
     }
@@ -937,7 +937,7 @@ Warrior *get_current_warrior()
 
 Warrior *get_warrior_by_id(size_t id)
 {
-    for (int i = 0; i < warriors_->length; ++i) {
+    for (size_t i = 0; i < warriors_->length; ++i) {
         Warrior *warrior = warriors_->items[i];
         if (warrior->id == id) {
             return warrior;

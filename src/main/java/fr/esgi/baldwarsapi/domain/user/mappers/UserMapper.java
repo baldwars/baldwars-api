@@ -15,6 +15,9 @@ public class UserMapper {
         user.setLastName(entity.getLastName());
         user.setEmail(entity.getEmail());
         user.setPassword(entity.getPassword());
+        user.setXp(entity.getXp());
+        user.setMaxXp(entity.getXp());
+        user.setLevel(entity.getLevel());
         user.setEloPoints(entity.getEloPoints());
 
         return user;

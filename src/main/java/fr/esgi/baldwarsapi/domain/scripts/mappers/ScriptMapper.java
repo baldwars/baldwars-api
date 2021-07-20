@@ -1,6 +1,6 @@
 package fr.esgi.baldwarsapi.domain.scripts.mappers;
 
-import fr.esgi.baldwarsapi.domain.scripts.models.ScriptRequest;
+import fr.esgi.baldwarsapi.exposition.scripts.ScriptRequest;
 import fr.esgi.baldwarsapi.infrastructure.scripts.ScriptEntity;
 import org.springframework.stereotype.Component;
 

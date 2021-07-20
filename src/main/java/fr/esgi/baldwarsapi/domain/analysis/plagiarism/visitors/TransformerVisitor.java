@@ -10,9 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
-import static org.antlr.v4.runtime.CharStreams.fromFileName;
+import static org.antlr.v4.runtime.CharStreams.fromString;
 
 public class TransformerVisitor {
 
@@ -22,7 +21,7 @@ public class TransformerVisitor {
     @SneakyThrows
     public TransformerVisitor(String source) {
         try {
-            var inputStream = fromFileName(source);
+            var inputStream = fromString(source);
             var lexer = new CLexer(inputStream);
             var tokenStream = new CommonTokenStream(lexer);
             var parser = new CParser(tokenStream);
@@ -38,11 +37,11 @@ public class TransformerVisitor {
         }
     }
 
-    public List<String> visit() {
+    public String visit() {
         variableVisitor.visit(context);
         var argumentVisitor = new ArgumentTransformerVisitor(variableVisitor.getSource());
         argumentVisitor.visit(context);
 
-        return argumentVisitor.getSource();
+        return String.join(" ", argumentVisitor.getSource());
     }
 }

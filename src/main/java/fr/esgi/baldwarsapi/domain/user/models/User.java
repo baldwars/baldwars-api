@@ -15,4 +15,7 @@ public class User {
     private String email;
     private String password;
     private Integer rank;
+    private Integer level;
+    private Integer xp;
+    private Integer maxXp;
 }

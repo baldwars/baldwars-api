@@ -1,11 +1,13 @@
 package fr.esgi.baldwarsapi.infrastructure.user;
 
+import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
+import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorEntity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -36,4 +38,14 @@ public class UserEntity {
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime registered;
+
+    @Column(nullable = false)
+    private Integer xp;
+
+    @Column(nullable = false, name = "max_xp")
+    private Integer maxXp;
+
+    @Column(nullable = false)
+    private Integer level;
+
 }

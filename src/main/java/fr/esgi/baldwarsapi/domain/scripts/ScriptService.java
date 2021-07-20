@@ -26,7 +26,7 @@ public class ScriptService {
         var entities = this.repository.findAll();
 
         for (var entity : entities) {
-            var script = new Script(entity.getId(), entity.getOwner(), entity.getName(), entity.getContent());
+            var script = mapper.from(entity);
             scripts.add(script);
         }
 
@@ -42,7 +42,7 @@ public class ScriptService {
 
         var entity = optionalEntity.get();
 
-        return new Script(entity.getId(), entity.getOwner(), entity.getName(), entity.getContent());
+        return mapper.from(entity);
     }
 
     public List<Script> findAllUserScripts(UUID userId) {

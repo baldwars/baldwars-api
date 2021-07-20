@@ -14,4 +14,5 @@ public class Warrior {
     private Integer health;
     private Integer moves;
     private Integer actions;
+    private UUID owner;
 }

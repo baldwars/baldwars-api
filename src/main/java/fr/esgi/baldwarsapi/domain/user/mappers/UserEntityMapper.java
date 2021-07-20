@@ -1,6 +1,7 @@
 package fr.esgi.baldwarsapi.domain.user.mappers;
 
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
+import fr.esgi.baldwarsapi.domain.user.UserExperience;
 import fr.esgi.baldwarsapi.infrastructure.user.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,9 @@ public class UserEntityMapper {
         entity.setPassword(body.getPassword());
         entity.setEloPoints(0);
         entity.setRegistered(LocalDateTime.now());
+        entity.setMaxXp(UserExperience.MAX_XP);
+        entity.setXp(UserExperience.DRAW_XP);
+        entity.setLevel(1);
 
         return entity;
     }

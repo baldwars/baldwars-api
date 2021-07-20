@@ -18,7 +18,8 @@ public class TransformerVisitor {
 
     @SneakyThrows
     public TransformerVisitor(String source) {
-        var inputStream = fromString(source);
+        var bloc = "{" + source + "}";
+        var inputStream = fromString(bloc);
         var lexer = new CLexer(inputStream);
         var tokenStream = new CommonTokenStream(lexer);
         var parser = new CParser(tokenStream);

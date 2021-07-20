@@ -13,6 +13,7 @@ public class Script {
 
     private UUID id;
     private UUID owner;
+    private String name;
     private String content;
 
 }

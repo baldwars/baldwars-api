@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.scripts;
+package fr.esgi.baldwarsapi.domain.scripts.exceptions;
 
 public class ScriptNotFoundException extends RuntimeException {
 

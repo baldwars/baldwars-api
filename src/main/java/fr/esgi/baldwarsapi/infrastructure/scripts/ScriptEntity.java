@@ -23,6 +23,9 @@ public class ScriptEntity {
     private UUID owner;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String content;
 
     @Column(name = "created_at", updatable = false, nullable = false)

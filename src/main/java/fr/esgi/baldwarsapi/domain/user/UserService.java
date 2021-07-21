@@ -4,6 +4,7 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserEntityMapper;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
+import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,5 +65,18 @@ public class UserService {
 
     private String hashPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
+    }
+
+    public void increaseXp(UUID id) {
+        var optionalUser = this.repository.findById(id);
+        if (optionalUser.isPresent()) {
+            var updateUser = optionalUser.get();
+            updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
+            if (updateUser.getXp() == UserExperience.MAX_XP) {
+                updateUser.setLevel(updateUser.getLevel() + 1);
+                updateUser.setXp(0);
+            }
+            this.repository.save(updateUser);
+        }
     }
 }

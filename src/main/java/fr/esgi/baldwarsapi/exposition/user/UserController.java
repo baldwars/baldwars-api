@@ -54,4 +54,16 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/increaseXp/{id}")
+    public ResponseEntity<?> increaseXp(@PathVariable UUID id) {
+        try {
+            this.service.increaseXp(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (UserNotFoundException e){
+            System.err.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

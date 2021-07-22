@@ -19,6 +19,7 @@ public class UserMapper {
         user.setMaxXp(entity.getMaxXp());
         user.setLevel(entity.getLevel());
         user.setEloPoints(entity.getEloPoints());
+        user.setSkillPoints(entity.getSkillPoints());
 
         return user;
     }

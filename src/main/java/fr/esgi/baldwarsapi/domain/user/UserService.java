@@ -69,14 +69,22 @@ public class UserService {
 
     public void increaseXp(UUID id) {
         var optionalUser = this.repository.findById(id);
-        if (optionalUser.isPresent()) {
-            var updateUser = optionalUser.get();
-            updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
-            if (updateUser.getXp() == UserExperience.MAX_XP) {
-                updateUser.setLevel(updateUser.getLevel() + 1);
-                updateUser.setXp(0);
-            }
-            this.repository.save(updateUser);
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException();
         }
+        var updateUser = optionalUser.get();
+        updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
+        if (updateUser.getXp().equals(UserExperience.MAX_XP)) {
+            updateUser.setLevel(updateUser.getLevel() + 1);
+            updateUser.setXp(0);
+        }
+        this.repository.save(updateUser);
+    }
+
+    public void increaseSkillPoints(UUID id) {
+        var user = this.findOneById(id);
+        user.setSkillPoints(user.getSkillPoints() + UserExperience.WIN_SP);
+        var userEntity = this.toUserEntity.from(user);
+        this.repository.save(userEntity);
     }
 }

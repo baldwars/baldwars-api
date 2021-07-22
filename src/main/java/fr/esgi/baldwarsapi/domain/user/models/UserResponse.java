@@ -16,4 +16,5 @@ public class UserResponse {
     private Integer xp;
     private Integer maxXp;
     private Integer level;
+    private Integer skillPoints;
 }

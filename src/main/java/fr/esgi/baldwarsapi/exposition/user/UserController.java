@@ -66,4 +66,17 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/increaseSp/{id}")
+    public ResponseEntity<?> increaseSkillPoints(@PathVariable UUID id) {
+        try {
+            this.service.increaseSkillPoints(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (UserNotFoundException e){
+            System.err.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

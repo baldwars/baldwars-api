@@ -48,4 +48,6 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer level;
 
+    @Column(nullable = false, name = "skill_points")
+    private Integer skillPoints;
 }

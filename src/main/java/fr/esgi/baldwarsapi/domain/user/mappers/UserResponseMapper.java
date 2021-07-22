@@ -17,6 +17,7 @@ public class UserResponseMapper {
         userResponse.setXp(user.getXp());
         userResponse.setMaxXp(user.getMaxXp());
         userResponse.setLevel(user.getLevel());
+        userResponse.setSkillPoints(user.getSkillPoints());
 
         return userResponse;
     }

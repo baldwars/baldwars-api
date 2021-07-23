@@ -1,7 +1,5 @@
 package fr.esgi.baldwarsapi.infrastructure.user;
 
-import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
-import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorEntity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

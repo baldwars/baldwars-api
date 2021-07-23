@@ -4,7 +4,6 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserEntityMapper;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
-import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

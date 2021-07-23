@@ -14,6 +14,7 @@ public class UserResponseMapper {
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
         userResponse.setEloPoints(user.getEloPoints());
+        userResponse.setBaldCoins(user.getBaldCoins());
 
         return userResponse;
     }

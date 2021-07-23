@@ -16,6 +16,7 @@ public class UserEntityMapper {
         entity.setEmail(body.getEmail());
         entity.setPassword(body.getPassword());
         entity.setEloPoints(0);
+        entity.setBaldCoins(10000);
         entity.setRegistered(LocalDateTime.now());
 
         return entity;

@@ -17,4 +17,5 @@ public class UserResponse {
     private Integer maxXp;
     private Integer level;
     private Integer skillPoints;
+    private Integer baldCoins;
 }

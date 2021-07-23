@@ -18,6 +18,7 @@ public class UserResponseMapper {
         userResponse.setMaxXp(user.getMaxXp());
         userResponse.setLevel(user.getLevel());
         userResponse.setSkillPoints(user.getSkillPoints());
+        userResponse.setBaldCoins(user.getBaldCoins());
 
         return userResponse;
     }

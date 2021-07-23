@@ -69,15 +69,19 @@ public class UserService {
 
     public void increaseXp(UUID id) {
         var optionalUser = this.repository.findById(id);
+      
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException();
         }
+      
         var updateUser = optionalUser.get();
         updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
+        
         if (updateUser.getXp().equals(UserExperience.MAX_XP)) {
             updateUser.setLevel(updateUser.getLevel() + 1);
             updateUser.setXp(0);
         }
+      
         this.repository.save(updateUser);
     }
 
@@ -85,6 +89,20 @@ public class UserService {
         var user = this.findOneById(id);
         user.setSkillPoints(user.getSkillPoints() + UserExperience.WIN_SP);
         var userEntity = this.toUserEntity.from(user);
+      
         this.repository.save(userEntity);
+    }
+
+    public void updateBaldCoins(UUID id, Integer weaponPrice) {
+        var optional = this.repository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        var entity = optional.get();
+        entity.setBaldCoins(entity.getBaldCoins() - weaponPrice);
+
+        this.repository.save(entity);
     }
 }

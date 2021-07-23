@@ -20,6 +20,7 @@ public class UserMapper {
         user.setLevel(entity.getLevel());
         user.setEloPoints(entity.getEloPoints());
         user.setSkillPoints(entity.getSkillPoints());
+        user.setBaldCoins(entity.getBaldCoins());
 
         return user;
     }

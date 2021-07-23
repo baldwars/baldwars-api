@@ -36,6 +36,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "bald_coins", columnDefinition = "integer default 10000")
+    private Integer baldCoins;
+
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime registered;
 

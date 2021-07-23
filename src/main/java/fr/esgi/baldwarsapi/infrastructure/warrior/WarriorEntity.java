@@ -30,8 +30,10 @@ public class WarriorEntity {
     @Column(nullable = false)
     private Integer actions;
 
-
     @Column(nullable = false, unique = true)
     private UUID owner;
+
+    @Column(nullable = false, name = "skill_points")
+    private Integer skillPoints;
 
 }

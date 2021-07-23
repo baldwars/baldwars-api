@@ -1,7 +1,7 @@
 package fr.esgi.baldwarsapi.domain.user.mappers;
 
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
-import fr.esgi.baldwarsapi.domain.user.UserExperience;
+import fr.esgi.baldwarsapi.domain.experience.Experience;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.infrastructure.user.UserEntity;
 import org.springframework.stereotype.Component;
@@ -20,10 +20,9 @@ public class UserEntityMapper {
         entity.setEloPoints(0);
         entity.setBaldCoins(10000);
         entity.setRegistered(LocalDateTime.now());
-        entity.setMaxXp(UserExperience.MAX_XP);
-        entity.setXp(UserExperience.DRAW_XP);
+        entity.setMaxXp(Experience.MAX_XP);
+        entity.setXp(Experience.DRAW_XP);
         entity.setLevel(1);
-        entity.setSkillPoints(0);
 
         return entity;
     }
@@ -38,10 +37,9 @@ public class UserEntityMapper {
         entity.setPassword(body.getPassword());
         entity.setEloPoints(body.getEloPoints());
         entity.setRegistered(LocalDateTime.now());
-        entity.setMaxXp(UserExperience.MAX_XP);
-        entity.setXp(UserExperience.DRAW_XP);
+        entity.setMaxXp(Experience.MAX_XP);
+        entity.setXp(Experience.DRAW_XP);
         entity.setLevel(body.getLevel());
-        entity.setSkillPoints(body.getSkillPoints());
 
         return entity;
     }

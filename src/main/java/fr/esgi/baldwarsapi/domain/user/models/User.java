@@ -18,6 +18,5 @@ public class User {
     private Integer level;
     private Integer xp;
     private Integer maxXp;
-    private Integer skillPoints;
     private Integer baldCoins;
 }

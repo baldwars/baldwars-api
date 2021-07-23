@@ -15,4 +15,5 @@ public class Warrior {
     private Integer moves;
     private Integer actions;
     private UUID owner;
+    private Integer skillPoints;
 }

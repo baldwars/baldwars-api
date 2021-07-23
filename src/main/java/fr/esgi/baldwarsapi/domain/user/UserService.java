@@ -66,7 +66,7 @@ public class UserService {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    public void increaseXp(UUID id) {
+    public void increaseExperience(UUID id) {
         var optionalUser = this.repository.findById(id);
       
         if (optionalUser.isEmpty()) {

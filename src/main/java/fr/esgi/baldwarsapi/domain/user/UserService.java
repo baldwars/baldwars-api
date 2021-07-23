@@ -65,4 +65,17 @@ public class UserService {
     private String hashPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
+
+    public void updateBaldCoins(UUID id, Integer weaponPrice) {
+        var optional = this.repository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        var entity = optional.get();
+        entity.setBaldCoins(entity.getBaldCoins() - weaponPrice);
+
+        this.repository.save(entity);
+    }
 }

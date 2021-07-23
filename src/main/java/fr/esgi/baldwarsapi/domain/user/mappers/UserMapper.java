@@ -16,6 +16,7 @@ public class UserMapper {
         user.setEmail(entity.getEmail());
         user.setPassword(entity.getPassword());
         user.setEloPoints(entity.getEloPoints());
+        user.setBaldCoins(entity.getBaldCoins());
 
         return user;
     }

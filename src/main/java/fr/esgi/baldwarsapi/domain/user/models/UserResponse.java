@@ -13,5 +13,9 @@ public class UserResponse {
     private String firstName;
     private String lastName;
     private Integer eloPoints;
+    private Integer xp;
+    private Integer maxXp;
+    private Integer level;
+    private Integer skillPoints;
     private Integer baldCoins;
 }

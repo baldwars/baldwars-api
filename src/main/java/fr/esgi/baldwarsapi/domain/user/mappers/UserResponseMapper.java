@@ -14,6 +14,10 @@ public class UserResponseMapper {
         userResponse.setFirstName(user.getFirstName());
         userResponse.setLastName(user.getLastName());
         userResponse.setEloPoints(user.getEloPoints());
+        userResponse.setXp(user.getXp());
+        userResponse.setMaxXp(user.getMaxXp());
+        userResponse.setLevel(user.getLevel());
+        userResponse.setSkillPoints(user.getSkillPoints());
         userResponse.setBaldCoins(user.getBaldCoins());
 
         return userResponse;

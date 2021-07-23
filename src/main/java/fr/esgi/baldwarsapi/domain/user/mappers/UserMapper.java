@@ -15,7 +15,11 @@ public class UserMapper {
         user.setLastName(entity.getLastName());
         user.setEmail(entity.getEmail());
         user.setPassword(entity.getPassword());
+        user.setXp(entity.getXp());
+        user.setMaxXp(entity.getMaxXp());
+        user.setLevel(entity.getLevel());
         user.setEloPoints(entity.getEloPoints());
+        user.setSkillPoints(entity.getSkillPoints());
         user.setBaldCoins(entity.getBaldCoins());
 
         return user;

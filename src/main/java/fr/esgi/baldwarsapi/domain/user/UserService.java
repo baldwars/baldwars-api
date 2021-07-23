@@ -4,6 +4,7 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserEntityMapper;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
+import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,32 @@ public class UserService {
 
     private String hashPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
+    }
+
+    public void increaseXp(UUID id) {
+        var optionalUser = this.repository.findById(id);
+      
+        if (optionalUser.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+      
+        var updateUser = optionalUser.get();
+        updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
+        
+        if (updateUser.getXp().equals(UserExperience.MAX_XP)) {
+            updateUser.setLevel(updateUser.getLevel() + 1);
+            updateUser.setXp(0);
+        }
+      
+        this.repository.save(updateUser);
+    }
+
+    public void increaseSkillPoints(UUID id) {
+        var user = this.findOneById(id);
+        user.setSkillPoints(user.getSkillPoints() + UserExperience.WIN_SP);
+        var userEntity = this.toUserEntity.from(user);
+      
+        this.repository.save(userEntity);
     }
 
     public void updateBaldCoins(UUID id, Integer weaponPrice) {

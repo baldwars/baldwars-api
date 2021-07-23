@@ -29,17 +29,18 @@ public class UserEntityMapper {
 
     public UserEntity from(User body) {
         var entity = new UserEntity();
+        entity.setId(body.getId());
         entity.setUsername(body.getUsername());
         entity.setFirstName(body.getFirstName());
         entity.setLastName(body.getLastName());
         entity.setEmail(body.getEmail());
         entity.setPassword(body.getPassword());
-        entity.setEloPoints(0);
+        entity.setEloPoints(body.getEloPoints());
         entity.setRegistered(LocalDateTime.now());
         entity.setMaxXp(UserExperience.MAX_XP);
         entity.setXp(UserExperience.DRAW_XP);
-        entity.setLevel(1);
-        entity.setSkillPoints(0);
+        entity.setLevel(body.getLevel());
+        entity.setSkillPoints(body.getSkillPoints());
 
         return entity;
     }

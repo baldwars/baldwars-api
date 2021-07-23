@@ -16,7 +16,7 @@ public class WarriorEntity {
     @GeneratedValue
     private Integer warrior_id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)

@@ -16,7 +16,7 @@ public class WarriorEntityMapper {
         entity.setHealth(body.getHealth());
         entity.setMoves(body.getMoves());
         entity.setActions(body.getActions());
-        entity.setOwner(body.getOwner());
+        entity.setSkillPoints(body.getSkillPoints());
 
         return entity;
     }
@@ -28,7 +28,7 @@ public class WarriorEntityMapper {
         entity.setHealth(100);
         entity.setMoves(3);
         entity.setActions(10);
-        entity.setOwner(body.getOwner());
+        entity.setSkillPoints(0);
 
         return entity;
     }

@@ -1,12 +1,15 @@
 package fr.esgi.baldwarsapi.domain.user.models;
 
+import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private UUID id;
     private String username;
@@ -18,6 +21,6 @@ public class User {
     private Integer level;
     private Integer xp;
     private Integer maxXp;
-    private Integer skillPoints;
     private Integer baldCoins;
+    private Warrior warrior;
 }

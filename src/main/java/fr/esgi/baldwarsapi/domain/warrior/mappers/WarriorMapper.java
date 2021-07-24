@@ -8,15 +8,38 @@ import org.springframework.stereotype.Component;
 public class WarriorMapper {
 
     public Warrior from(WarriorEntity entity) {
-        var warrior = new Warrior();
-        warrior.setId(entity.getWarrior_id());
-        warrior.setName(entity.getName());
-        warrior.setLevel(entity.getLevel());
-        warrior.setHealth(entity.getHealth());
-        warrior.setMoves(entity.getMoves());
-        warrior.setActions(entity.getActions());
-        warrior.setOwner(entity.getOwner());
+        return new Warrior(
+                entity.getId(),
+                entity.getName(),
+                entity.getLevel(),
+                entity.getHealth(),
+                entity.getMoves(),
+                entity.getActions(),
+                entity.getSkillPoints()
+        );
+    }
 
-        return warrior;
+    public WarriorEntity from(Warrior warrior) {
+        return new WarriorEntity(
+                warrior.getId(),
+                warrior.getName(),
+                warrior.getLevel(),
+                warrior.getHealth(),
+                warrior.getMoves(),
+                warrior.getActions(),
+                warrior.getSkillPoints()
+        );
+    }
+
+    public Warrior from(String name) {
+        return new Warrior(
+                null,
+                name,
+                1,
+                100,
+                3,
+                10,
+                0
+        );
     }
 }

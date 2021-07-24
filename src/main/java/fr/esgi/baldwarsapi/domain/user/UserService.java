@@ -1,10 +1,11 @@
 package fr.esgi.baldwarsapi.domain.user;
 
-import fr.esgi.baldwarsapi.domain.user.mappers.UserEntityMapper;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
+import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +14,19 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private final UserMapper toUser;
-    private final UserEntityMapper toUserEntity;
+    private final WarriorService warriorService;
+    private final UserMapper mapper;
     private final UserRepository repository;
 
-    public UserService(UserMapper toUser, UserEntityMapper toUserEntity, UserRepository repository) {
-        this.toUser = toUser;
-        this.toUserEntity = toUserEntity;
-        this.repository = repository;
-    }
 
     public List<User> findAll() {
         var users = new ArrayList<User>();
         var usersAsEntity = repository.findAll();
 
-        usersAsEntity.forEach(entity -> users.add(toUser.from(entity)));
+        usersAsEntity.forEach(entity -> users.add(mapper.from(entity)));
 
         return users;
     }
@@ -41,7 +38,7 @@ public class UserService {
             throw new UserNotFoundException();
         }
 
-        return toUser.from(optionalUser.get());
+        return mapper.from(optionalUser.get());
     }
 
     public User findOneByUsername(String username) {
@@ -55,18 +52,26 @@ public class UserService {
         return optionalUser.get();
     }
 
+    public User addWarrior(User user, String name) {
+        var warrior = this.warriorService.save(user, name);
+        user.setWarrior(warrior);
+
+        return mapper.from(this.repository.save(mapper.from(user)));
+    }
+
     public User save(RegisterRequestBody body) {
-        var userEntity = toUserEntity.from(body);
+        var userEntity = mapper.from(body);
         userEntity.setPassword(hashPassword(userEntity.getPassword()));
         var userEntityInserted =  repository.save(userEntity);
-        return toUser.from(userEntityInserted);
+
+        return mapper.from(userEntityInserted);
     }
 
     private String hashPassword(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    public void increaseXp(UUID id) {
+    public User gainExperience(UUID id) {
         var optionalUser = this.repository.findById(id);
       
         if (optionalUser.isEmpty()) {
@@ -74,22 +79,20 @@ public class UserService {
         }
       
         var updateUser = optionalUser.get();
-        updateUser.setXp(updateUser.getXp() + UserExperience.WIN_XP);
-        
-        if (updateUser.getXp().equals(UserExperience.MAX_XP)) {
+        updateUser.setXp(updateUser.getXp() + Experience.GAIN);
+
+        if (updateUser.getXp().equals(updateUser.getMaxXp())) {
             updateUser.setLevel(updateUser.getLevel() + 1);
-            updateUser.setXp(0);
+            updateUser.setXp(Experience.START);
+            updateUser.setMaxXp(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER);
+
+            var warrior = this.warriorService.increaseSkillPoints(updateUser.getWarrior());
+            updateUser.setWarrior(warrior.getId());
         }
       
-        this.repository.save(updateUser);
-    }
+        var modified = this.repository.save(updateUser);
 
-    public void increaseSkillPoints(UUID id) {
-        var user = this.findOneById(id);
-        user.setSkillPoints(user.getSkillPoints() + UserExperience.WIN_SP);
-        var userEntity = this.toUserEntity.from(user);
-      
-        this.repository.save(userEntity);
+        return mapper.from(modified);
     }
 
     public void updateBaldCoins(UUID id, Integer weaponPrice) {

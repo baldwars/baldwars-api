@@ -1,12 +1,12 @@
 package fr.esgi.baldwarsapi.domain.warrior.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Warrior {
     private Integer id;
     private String name;
@@ -14,5 +14,5 @@ public class Warrior {
     private Integer health;
     private Integer moves;
     private Integer actions;
-    private UUID owner;
+    private Integer skillPoints;
 }

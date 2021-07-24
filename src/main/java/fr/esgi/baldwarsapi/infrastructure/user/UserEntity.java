@@ -1,7 +1,8 @@
 package fr.esgi.baldwarsapi.infrastructure.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +11,8 @@ import java.util.*;
 @Entity
 @Data
 @Table(name = "users")
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue
@@ -43,12 +45,13 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer xp;
 
-    @Column(nullable = false, name = "max_xp")
+    @Column(nullable = false, name = "LEVEL_UP_MULTIPLIER")
     private Integer maxXp;
 
     @Column(nullable = false)
     private Integer level;
 
-    @Column(nullable = false, name = "skill_points")
-    private Integer skillPoints;
+    @Column(name = "warrior_id")
+    private Integer warrior;
+
 }

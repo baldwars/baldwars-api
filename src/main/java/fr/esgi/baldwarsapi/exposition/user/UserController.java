@@ -1,9 +1,13 @@
 package fr.esgi.baldwarsapi.exposition.user;
 
-import fr.esgi.baldwarsapi.domain.user.mappers.UserResponseMapper;
+import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
+import fr.esgi.baldwarsapi.domain.warrior.WarriorAlreadyExistsException;
+import fr.esgi.baldwarsapi.exposition.warrior.WarriorRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +17,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    private final UserResponseMapper toUserResponse;
+    private final UserMapper mapper;
     private final UserService service;
-
-    public UserController(UserResponseMapper toUserResponse, UserService service) {
-        this.toUserResponse = toUserResponse;
-        this.service = service;
-    }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> findAll() {
@@ -32,7 +32,7 @@ public class UserController {
         }
 
         var response = new ArrayList<UserResponse>();
-        users.forEach(user -> response.add(toUserResponse.from(user)));
+        users.forEach(user -> response.add(mapper.to(user)));
 
         return ResponseEntity.ok(response);
     }
@@ -40,7 +40,8 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findOneById(@PathVariable UUID id) {
         try {
-            return ResponseEntity.ok(toUserResponse.from(service.findOneById(id)));
+            return ResponseEntity.ok(mapper.to(service.findOneById(id)));
+
         } catch (UserNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
@@ -49,33 +50,37 @@ public class UserController {
     @GetMapping("/user/{username}")
     public ResponseEntity<UserResponse> findOneByUsername(@PathVariable String username) {
         try {
-            return ResponseEntity.ok(toUserResponse.from(service.findOneByUsername(username)));
+            return ResponseEntity.ok(mapper.to(service.findOneByUsername(username)));
+
         } catch (UserNotFoundException exception) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping("/increaseXp/{id}")
-    public ResponseEntity<?> increaseExperience(@PathVariable UUID id) {
+    @PostMapping("/warrior")
+    public ResponseEntity<?> addWarrior(@RequestBody WarriorRequest request) {
         try {
-            this.service.increaseExperience(id);
-            return ResponseEntity.ok().build();
-        }
-        catch (UserNotFoundException e){
-            System.err.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            var user = this.service.findOneById(request.getOwner());
+            user = this.service.addWarrior(user, request.getName());
+
+            return ResponseEntity.ok(user);
+
+        } catch (WarriorAlreadyExistsException exception) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        } catch (UserNotFoundException exception) {
+            return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping("/increaseSp/{id}")
-    public ResponseEntity<?> increaseSkillPoints(@PathVariable UUID id) {
+    @PutMapping("/{id}/experience")
+    public ResponseEntity<UserResponse> gainExperience(@PathVariable UUID id) {
         try {
-            this.service.increaseSkillPoints(id);
-            return ResponseEntity.ok().build();
-        }
-        catch (UserNotFoundException e){
-            System.err.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
+            var user = this.service.gainExperience(id);
+            return ResponseEntity.ok(mapper.to(user));
+
+        } catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
         }
     }
 

@@ -1,23 +1,22 @@
 package fr.esgi.baldwarsapi.exposition.warrior;
 
+import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/warriors")
+@RequiredArgsConstructor
 public class WarriorController {
 
     private final WarriorService warriorService;
-
-    public WarriorController(WarriorService warriorService) {
-        this.warriorService = warriorService;
-    }
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<Warrior>> findAll() {
@@ -31,10 +30,4 @@ public class WarriorController {
         return new ResponseEntity<>(warrior, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Warrior> addOne(@RequestBody WarriorRequest warrior) {
-        System.out.println(warrior);
-        var savedWarrior = this.warriorService.save(warrior);
-        return new ResponseEntity<>(savedWarrior, HttpStatus.OK);
-    }
 }

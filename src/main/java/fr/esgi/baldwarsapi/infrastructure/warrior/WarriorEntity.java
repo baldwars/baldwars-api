@@ -1,19 +1,20 @@
 package fr.esgi.baldwarsapi.infrastructure.warrior;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Data
-@Table(name = "warriors")
-@RequiredArgsConstructor
+@Table(name = "warrior")
+@NoArgsConstructor
+@AllArgsConstructor
 public class WarriorEntity {
     @Id
     @GeneratedValue
-    private Integer warrior_id;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
@@ -29,9 +30,6 @@ public class WarriorEntity {
 
     @Column(nullable = false)
     private Integer actions;
-
-    @Column(nullable = false, unique = true)
-    private UUID owner;
 
     @Column(nullable = false, name = "skill_points")
     private Integer skillPoints;

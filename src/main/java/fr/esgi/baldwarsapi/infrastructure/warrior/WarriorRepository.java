@@ -1,10 +1,7 @@
 package fr.esgi.baldwarsapi.infrastructure.warrior;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.UUID;
-
-public interface WarriorRepository extends JpaRepository<WarriorEntity, Integer> {
-    Optional<WarriorEntity> findWarriorEntityByOwner(UUID id);
-}
+@Repository
+public interface WarriorRepository extends JpaRepository<WarriorEntity, Integer> { }

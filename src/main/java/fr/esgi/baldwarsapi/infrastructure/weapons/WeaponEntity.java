@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class WeaponEntity {
 
     @Id
-    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false, unique = true)

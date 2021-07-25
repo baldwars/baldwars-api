@@ -1,5 +1,6 @@
 package fr.esgi.baldwarsapi.domain.weapons.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,11 @@ public class WeaponGame {
     private Integer level;
     private Integer damage;
     private Integer cost;
+
+    @JsonProperty("min_range")
     private Integer minRange;
+
+    @JsonProperty("max_range")
     private Integer maxRange;
 
 }

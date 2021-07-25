@@ -1,5 +1,6 @@
 package fr.esgi.baldwarsapi.exposition.fight;
 
+import fr.esgi.baldwarsapi.domain.fights.FightService;
 import fr.esgi.baldwarsapi.domain.godbox.GodBoxService;
 import fr.esgi.baldwarsapi.domain.scripts.ScriptService;
 import fr.esgi.baldwarsapi.domain.scripts.models.Script;
@@ -23,37 +24,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FightController {
 
-    private final ScriptService scriptService;
-    private final WeaponService weaponService;
-    private final UserService userService;
-    private final GodBoxService godBoxService;
+    private final FightService service;
 
     @PostMapping("/test")
-    public ResponseEntity<?> testAiScript(@RequestBody Script script) {
-        try {
-            var user = this.userService.findOneById(script.getOwner());
-            var opponent = this.userService.findOneById(script.getOwner());
-
-            var warriors = new ArrayList<Warrior>();
-            warriors.add(user.getWarrior());
-            opponent.getWarrior().setId(1000);
-            warriors.add(opponent.getWarrior());
-
-            var userWeapons = this.weaponService.findUserWeaponsToFight(user.getId());
-            var opponentWeapons = this.weaponService.findUserWeaponsToFight(opponent.getId());
-
-            var weapons = new ArrayList<List<WeaponGame>>();
-            weapons.add(userWeapons);
-            weapons.add(opponentWeapons);
-            this.godBoxService.prepareResourceFiles(warriors, weapons);
-            this.godBoxService.prepareScriptFiles(script, script);
-
-            var response = this.godBoxService.runWithCompilation();
-
-            return ResponseEntity.ok(response);
-
-        } catch (UserNotFoundException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<?> simulate(@RequestBody Script script) {
+        return null;
+//        try {
+//            var user = this.userService.findOneById(script.getOwner());
+//            var opponent = this.userService.findOneById(script.getOwner());
+//
+//            var warriors = new ArrayList<Warrior>();
+//            warriors.add(user.getWarrior());
+//            opponent.getWarrior().setId(1000);
+//            warriors.add(opponent.getWarrior());
+//
+//            var userWeapons = this.weaponService.findUserWeaponsToFight(user.getId());
+//            var opponentWeapons = this.weaponService.findUserWeaponsToFight(opponent.getId());
+//
+//            var weapons = new ArrayList<List<WeaponGame>>();
+//            weapons.add(userWeapons);
+//            weapons.add(opponentWeapons);
+//            this.godBoxService.prepareResourceFiles(warriors, weapons);
+//            this.godBoxService.prepareScriptFiles(script, script);
+//
+//            var response = this.godBoxService.runWithCompilation();
+//
+//            return ResponseEntity.ok(response);
+//
+//        } catch (UserNotFoundException exception) {
+//            return ResponseEntity.badRequest().build();
+//        }
     }
 }

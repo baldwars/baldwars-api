@@ -26,7 +26,6 @@ public class UserMapper {
             warrior = this.service.findWarriorById(entity.getWarrior());
 
         } catch (WarriorNotFoundException ignored) { }
-
         return new User(
                 entity.getId(),
                 entity.getUsername(),

@@ -4,6 +4,7 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
+import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -101,9 +102,8 @@ public class UserService {
             var warrior = this.warriorService.increaseSkillPoints(updateUser.getWarrior());
             updateUser.setWarrior(warrior.getId());
         }
-      
-        var modified = this.repository.save(updateUser);
 
+        var modified = this.repository.save(updateUser);
         return mapper.from(modified);
     }
 

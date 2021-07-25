@@ -1,18 +1,18 @@
-package fr.esgi.baldwarsapi.domain.godbox;
+package fr.esgi.baldwarsapi.domain.godbox.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ExecutionPhase extends Phase {
-
+public class CompilationPhase extends Phase {
     @JsonProperty("script")
     private final String script;
 
-    public ExecutionPhase(String name, String script) {
+    public CompilationPhase(String name) {
         super(name);
         this.script = "cd game-engine\n" +
+                "mkdir build\n" +
                 "cd build\n" +
-                "./BaldWars_Game";
-//        this.script = "./" + script;
+                "cmake ..\n" +
+                "cmake --build .";
     }
 
     public String getScript() {

@@ -4,6 +4,7 @@ import fr.esgi.baldwarsapi.domain.user.Experience;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.warrior.mappers.WarriorMapper;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
+import fr.esgi.baldwarsapi.exposition.warrior.WarriorRequest;
 import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,12 @@ public class WarriorService {
 
         var modified = this.repository.save(entity);
 
+        return this.mapper.from(modified);
+    }
+
+    public Warrior updateWarrior(Warrior warrior) {
+        var entity = this.mapper.from(warrior);
+        var modified = this.repository.save(entity);
         return this.mapper.from(modified);
     }
 }

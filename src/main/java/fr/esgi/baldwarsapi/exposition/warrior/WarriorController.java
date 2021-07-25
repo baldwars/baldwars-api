@@ -1,6 +1,7 @@
 package fr.esgi.baldwarsapi.exposition.warrior;
 
 import fr.esgi.baldwarsapi.domain.user.UserService;
+import fr.esgi.baldwarsapi.domain.warrior.WarriorNotFoundException;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,16 @@ public class WarriorController {
     public ResponseEntity<Warrior> findOneById(@PathVariable Integer id) {
         Warrior warrior = this.warriorService.findWarriorById(id);
         return new ResponseEntity<>(warrior, HttpStatus.OK);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Warrior> updateWarrior(@RequestBody Warrior warrior) {
+        try {
+            var modified = this.warriorService.updateWarrior(warrior);
+            return ResponseEntity.ok(modified);
+        } catch (WarriorNotFoundException e) {
+            return  ResponseEntity.notFound().build();
+        }
     }
 
 }

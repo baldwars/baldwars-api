@@ -1,9 +1,9 @@
 package fr.esgi.baldwarsapi.domain.fights;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.esgi.baldwarsapi.domain.fights.exceptions.CompilationErrorException;
 import fr.esgi.baldwarsapi.domain.fights.exceptions.ExecutionErrorException;
 import fr.esgi.baldwarsapi.domain.fights.models.FightResponse;
+import fr.esgi.baldwarsapi.domain.fights.models.FightTestResponse;
 import fr.esgi.baldwarsapi.domain.godbox.GodBoxService;
 import fr.esgi.baldwarsapi.domain.godbox.models.GodBoxResponse;
 import fr.esgi.baldwarsapi.domain.scripts.ScriptService;
@@ -11,6 +11,7 @@ import fr.esgi.baldwarsapi.domain.scripts.models.Script;
 import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
+import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.domain.weapons.WeaponService;
 import fr.esgi.baldwarsapi.domain.weapons.models.WeaponGame;
@@ -48,8 +49,15 @@ public class FightService {
             throw new ExecutionErrorException(phases.get(1).getStderr());
         }
 
-        var mapper = new ObjectMapper();
-        return mapper.readValue(phases.get(1).getStdout(), Object.class);
+        var fight = mapper.from(phases.get(1).getStdout());
+
+        UserResponse winner = null;
+
+        if (fight.getWinner() != null) {
+            winner = userMapper.to(userService.findOneByWarrior(fight.getWinner()));
+        }
+
+        return new FightTestResponse(winner, fight);
     }
 
     @SneakyThrows
@@ -66,7 +74,12 @@ public class FightService {
         }
 
         var fight = mapper.from(phases.get(1).getStdout());
-        var winner = fight.getWinner() == null ? null : userService.findOneByWarrior(fight.getWinner()).getId();
+
+        UUID winner = null;
+
+        if (fight.getWinner() != null) {
+            winner = userService.findOneByWarrior(fight.getWinner()).getId();
+        }
 
         var entity = mapper.from(
                 phases.get(1).getStdout(),

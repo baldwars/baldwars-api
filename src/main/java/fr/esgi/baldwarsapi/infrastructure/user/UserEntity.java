@@ -45,7 +45,7 @@ public class UserEntity {
     @Column(nullable = false)
     private Integer xp;
 
-    @Column(nullable = false, name = "LEVEL_UP_MULTIPLIER")
+    @Column(nullable = false, name = "max_xp")
     private Integer maxXp;
 
     @Column(nullable = false)

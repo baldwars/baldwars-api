@@ -33,14 +33,13 @@ public class WarriorMapper {
     }
 
     public Warrior from(String name) {
-        return new Warrior(
-                null,
-                name,
-                1,
-                100,
-                3,
-                10,
-                Experience.SKILL_POINTS
-        );
+        return Warrior.builder()
+                .name(name)
+                .level(1)
+                .health(100)
+                .moves(3)
+                .actions(10)
+                .skillPoints(Experience.SKILL_POINTS)
+                .build();
     }
 }

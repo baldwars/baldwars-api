@@ -29,7 +29,9 @@ public class UserService {
         var users = new ArrayList<User>();
         var usersAsEntity = repository.findAll();
 
-        usersAsEntity.forEach(entity -> users.add(mapper.from(entity)));
+        if (!usersAsEntity.isEmpty()) {
+            usersAsEntity.forEach(entity -> users.add(mapper.from(entity)));
+        }
 
         return users;
     }
@@ -45,8 +47,13 @@ public class UserService {
     }
 
     public User findOneByUsername(String username) {
-        var users = findAll().stream();
-        var optionalUser = users.filter(user -> user.getUsername().equals(username)).findFirst();
+        var users = findAll();
+
+        if (users.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        var optionalUser = users.stream().filter(user -> user.getUsername().equals(username)).findFirst();
 
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException();
@@ -56,6 +63,7 @@ public class UserService {
     }
 
     public User findOneByWarrior(Integer warrior) {
+        System.out.println("warrior winner: " + warrior);
         var optional = findAll().stream()
                 .filter(user -> user.getWarrior().getId().equals(warrior))
                 .findFirst();
@@ -103,6 +111,7 @@ public class UserService {
         var updateUser = optionalUser.get();
 
         updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
+        updateUser.setEloPoints(updateUser.getEloPoints() + Experience.ELIO_POINTS_WIN);
 
         if (updateUser.getXp() >= updateUser.getMaxXp()) {
             var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());

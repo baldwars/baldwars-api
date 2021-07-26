@@ -66,24 +66,24 @@ public class FightService {
         }
 
         var fight = mapper.from(phases.get(1).getStdout());
-        var winner = userService.findOneByWarrior(fight.getWinner());
+        var winner = fight.getWinner() == null ? null : userService.findOneByWarrior(fight.getWinner()).getId();
 
         var entity = mapper.from(
                 phases.get(1).getStdout(),
                 strikerScript.getOwner(),
                 opponent,
-                winner.getId());
+                winner);
 
         var inserted = this.repository.save(entity);
-        this.userService.gainExperience(winner.getId());
+
+        if (winner != null) {
+            this.userService.gainExperience(winner);
+        }
 
         var striker = userMapper.to(userService.findOneById(strikerScript.getOwner()));
         var defender = userMapper.to(userService.findOneById(opponent));
 
-        return new FightResponse(inserted.getId(), striker, defender, winner.getId(), fight);
-
-//        var mapper = new ObjectMapper();
-//        return mapper.readValue(phases.get(1).getStdout(), Object.class);
+        return new FightResponse(inserted.getId(), striker, defender, winner, fight);
     }
 
     private GodBoxResponse simulate(Script userScript, Script opponentScript) {

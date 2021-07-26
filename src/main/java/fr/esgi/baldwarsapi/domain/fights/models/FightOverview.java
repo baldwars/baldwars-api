@@ -1,17 +1,19 @@
 package fr.esgi.baldwarsapi.domain.fights.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class FightOverview {
 
-    private final Integer winner;
+    private Integer winner;
 
     @JsonProperty("fight")
-    private final List<Object> rounds;
+    private List<Object> rounds;
 }

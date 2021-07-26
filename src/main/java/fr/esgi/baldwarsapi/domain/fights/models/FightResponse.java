@@ -14,6 +14,6 @@ public class FightResponse {
     private final UserResponse striker;
     private final UserResponse defender;
     private final UUID winner;
-    private final FightOverview fight;
+    private final FightOverview overview;
 
 }

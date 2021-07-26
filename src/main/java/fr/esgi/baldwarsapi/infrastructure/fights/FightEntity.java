@@ -29,6 +29,7 @@ public class FightEntity {
 
     private UUID winner;
 
+    @Lob
     @Column(nullable = false)
     private String overview;
 

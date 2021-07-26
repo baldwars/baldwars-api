@@ -75,7 +75,11 @@ public class UserService {
     public User save(RegisterRequestBody body) {
         var userEntity = mapper.from(body);
         userEntity.setPassword(hashPassword(userEntity.getPassword()));
+
         var userEntityInserted =  repository.save(userEntity);
+        var warrior = this.warriorService.save(mapper.from(userEntityInserted), body.getWarrior());
+        userEntityInserted.setWarrior(warrior.getId());
+        userEntityInserted = repository.save(userEntityInserted);
 
         return mapper.from(userEntityInserted);
     }

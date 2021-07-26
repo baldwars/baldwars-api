@@ -1,16 +1,18 @@
 package fr.esgi.baldwarsapi.infrastructure.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
 @Table(name = "users")
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue
@@ -25,8 +27,11 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
-    private Integer rank;
+    @Column(name = "role", nullable = false)
+    private String role;
+
+    @Column(name = "elo_points", nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+    private Integer eloPoints;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -34,6 +39,22 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "bald_coins", columnDefinition = "integer default 10000")
+    private Integer baldCoins;
+
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime registered;
+
+    @Column(nullable = false)
+    private Integer xp;
+
+    @Column(nullable = false, name = "max_xp")
+    private Integer maxXp;
+
+    @Column(nullable = false)
+    private Integer level;
+
+    @Column(name = "warrior_id")
+    private Integer warrior;
+
 }

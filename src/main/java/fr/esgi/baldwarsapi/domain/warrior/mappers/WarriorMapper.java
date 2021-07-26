@@ -1,5 +1,6 @@
 package fr.esgi.baldwarsapi.domain.warrior.mappers;
 
+import fr.esgi.baldwarsapi.domain.user.Experience;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorEntity;
 import org.springframework.stereotype.Component;
@@ -39,7 +40,7 @@ public class WarriorMapper {
                 100,
                 3,
                 10,
-                0
+                Experience.SKILL_POINTS
         );
     }
 }

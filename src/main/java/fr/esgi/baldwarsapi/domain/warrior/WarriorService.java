@@ -46,13 +46,20 @@ public class WarriorService {
         return this.mapper.from(inserted);
     }
 
-    public Warrior increaseSkillPoints(Integer id) {
-        var warrior = this.findWarriorById(id);
+    public Warrior increaseSkillPoints(Integer level, Integer warriorId) {
+        var warrior = this.findWarriorById(warriorId);
+        warrior.setLevel(level);
         warrior.setSkillPoints(warrior.getSkillPoints() + Experience.SKILL_POINTS);
         var entity = this.mapper.from(warrior);
 
         var modified = this.repository.save(entity);
 
+        return this.mapper.from(modified);
+    }
+
+    public Warrior updateWarrior(Warrior warrior) {
+        var entity = this.mapper.from(warrior);
+        var modified = this.repository.save(entity);
         return this.mapper.from(modified);
     }
 }

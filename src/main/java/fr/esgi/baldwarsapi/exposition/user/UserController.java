@@ -5,6 +5,8 @@ import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorAlreadyExistsException;
+import fr.esgi.baldwarsapi.domain.warrior.WarriorNotFoundException;
+import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.exposition.warrior.WarriorRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -69,17 +71,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         } catch (UserNotFoundException exception) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}/experience")
-    public ResponseEntity<UserResponse> gainExperience(@PathVariable UUID id) {
-        try {
-            var user = this.service.gainExperience(id);
-            return ResponseEntity.ok(mapper.to(user));
-
-        } catch (UserNotFoundException e){
             return ResponseEntity.notFound().build();
         }
     }

@@ -4,6 +4,7 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
+import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -91,19 +92,23 @@ public class UserService {
         }
       
         var updateUser = optionalUser.get();
-        updateUser.setXp(updateUser.getXp() + Experience.GAIN);
 
-        if (updateUser.getXp().equals(updateUser.getMaxXp())) {
+        updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
+
+        if (updateUser.getXp() >= updateUser.getMaxXp()) {
             updateUser.setLevel(updateUser.getLevel() + 1);
-            updateUser.setXp(Experience.START);
-            updateUser.setMaxXp(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER);
+            var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());
+            updateUser.setXp(xp);
 
-            var warrior = this.warriorService.increaseSkillPoints(updateUser.getWarrior());
+            var maxXp = (int)(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER + updateUser.getMaxXp() * 1.25);
+            updateUser.setMaxXp(maxXp);
+
+            var warrior = this.warriorService
+                    .increaseSkillPoints(updateUser.getLevel(), updateUser.getWarrior());
             updateUser.setWarrior(warrior.getId());
         }
-      
-        var modified = this.repository.save(updateUser);
 
+        var modified = this.repository.save(updateUser);
         return mapper.from(modified);
     }
 

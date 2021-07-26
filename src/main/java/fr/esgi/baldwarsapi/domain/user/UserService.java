@@ -92,12 +92,16 @@ public class UserService {
         }
       
         var updateUser = optionalUser.get();
-        updateUser.setXp(updateUser.getXp() + Experience.GAIN);
 
-        if (updateUser.getXp().equals(updateUser.getMaxXp())) {
+        updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
+
+        if (updateUser.getXp() >= updateUser.getMaxXp()) {
             updateUser.setLevel(updateUser.getLevel() + 1);
-            updateUser.setXp(Experience.START);
-            updateUser.setMaxXp(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER);
+            var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());
+            updateUser.setXp(xp);
+
+            var maxXp = (int)(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER + updateUser.getMaxXp() * 1.25);
+            updateUser.setMaxXp(maxXp);
 
             var warrior = this.warriorService
                     .increaseSkillPoints(updateUser.getLevel(), updateUser.getWarrior());

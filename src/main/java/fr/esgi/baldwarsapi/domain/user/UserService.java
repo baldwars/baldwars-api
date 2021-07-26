@@ -96,9 +96,9 @@ public class UserService {
         updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
 
         if (updateUser.getXp() >= updateUser.getMaxXp()) {
-            updateUser.setLevel(updateUser.getLevel() + 1);
             var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());
             updateUser.setXp(xp);
+            updateUser.setLevel(updateUser.getLevel() + 1);
 
             var maxXp = (int)(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER + updateUser.getMaxXp() * 1.25);
             updateUser.setMaxXp(maxXp);

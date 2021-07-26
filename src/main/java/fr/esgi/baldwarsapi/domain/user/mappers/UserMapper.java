@@ -72,7 +72,7 @@ public class UserMapper {
         entity.setPassword(user.getPassword());
         entity.setEloPoints(user.getEloPoints());
         entity.setRegistered(LocalDateTime.now());
-        entity.setMaxXp(Experience.LEVEL_UP_MULTIPLIER);
+        entity.setMaxXp(user.getMaxXp());
         entity.setXp(Experience.START);
         entity.setLevel(user.getLevel());
         entity.setWarrior(user.getWarrior().getId());

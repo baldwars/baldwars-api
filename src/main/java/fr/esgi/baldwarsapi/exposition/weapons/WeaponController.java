@@ -4,7 +4,6 @@ import fr.esgi.baldwarsapi.domain.weapons.WeaponService;
 import fr.esgi.baldwarsapi.domain.weapons.exceptions.NotEnoughBaldCoinsException;
 import fr.esgi.baldwarsapi.domain.weapons.exceptions.UserAlreadyOwnsWeaponException;
 import fr.esgi.baldwarsapi.domain.weapons.exceptions.WeaponNotFoundException;
-import fr.esgi.baldwarsapi.domain.weapons.models.WeaponGame;
 import fr.esgi.baldwarsapi.domain.weapons.models.WeaponStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class WeaponController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<List<WeaponGame>> findUserWeapons(@PathVariable("id")UUID id) {
+    public ResponseEntity<List<WeaponStore>> findUserWeapons(@PathVariable("id") UUID id) {
         var weapons = this.service.findUserWeapons(id);
         return ResponseEntity.ok(weapons);
     }

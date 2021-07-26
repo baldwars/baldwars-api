@@ -28,6 +28,9 @@ public class ScriptEntity {
     @Column(nullable = false)
     private String content;
 
+    @Column(name = "is_defense", nullable = false)
+    private boolean isDefense;
+
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 

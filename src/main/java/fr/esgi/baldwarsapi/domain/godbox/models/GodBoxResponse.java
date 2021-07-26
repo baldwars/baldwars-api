@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.godbox;
+package fr.esgi.baldwarsapi.domain.godbox.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -68,25 +68,32 @@ public class ScriptService {
         return optional.get();
     }
 
-    private Optional<Script> findUserScriptByName(UUID userId, String name) {
+    public Script findUserScriptByName(UUID userId, String name) {
         var scripts = this.findAllUserScripts(userId);
 
-        return scripts.stream()
+        var optional = scripts.stream()
                 .filter(script -> script.getName().equals(name))
                 .findFirst();
+
+        if (optional.isEmpty()) {
+            throw new ScriptNotFoundException();
+        }
+
+        return optional.get();
     }
 
     public UUID save(ScriptRequest request) {
-        var optional = this.findUserScriptByName(request.getOwner(), request.getName());
-
-        if (optional.isPresent()) {
+        System.out.println(request);
+        try {
+            this.findUserScriptByName(request.getOwner(), request.getName());
             throw new ScriptAlreadyExistsException();
+
+        } catch (ScriptNotFoundException exception) {
+            var entity = mapper.from(request);
+            var inserted = this.repository.save(entity);
+
+            return inserted.getId();
         }
-
-        var entity = mapper.from(request);
-        var inserted = this.repository.save(entity);
-
-        return inserted.getId();
     }
 
     public void update(Script request) {
@@ -113,8 +120,22 @@ public class ScriptService {
         this.repository.save(entity);
     }
 
+    public Script findUserDefenseScript(UUID userId) {
+        var scripts = this.findAllUserScripts(userId);
+
+        var optional = scripts.stream()
+                .filter(Script::isDefense)
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            throw new ScriptNotFoundException();
+        }
+
+        return optional.get();
+    }
+
     private boolean isScriptNameValid(Script request) {
-        var optional = this.findUserScriptByName(request.getOwner(), request.getName());
-        return optional.isEmpty() || optional.get().getId().equals(request.getId());
+        var script = this.findUserScriptByName(request.getOwner(), request.getName());
+        return script.getId().equals(request.getId());
     }
 }

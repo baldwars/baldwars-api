@@ -10,5 +10,6 @@ public class ScriptRequest {
     private UUID owner;
     private String name;
     private String content;
+    private Boolean isDefense;
 
 }

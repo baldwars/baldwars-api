@@ -39,8 +39,22 @@ public class WeaponService {
                 .collect(Collectors.toList());
     }
 
-    public List<WeaponGame> findUserWeapons(UUID userId) {
-        var weaponIds = this.userWeaponRepository.findAll()
+    public List<WeaponStore> findUserWeapons(UUID userId) {
+        var weaponIds = this.userWeaponRepository.findAll(Sort.by("weaponId"))
+                .stream()
+                .filter(e -> e.getUserId().equals(userId))
+                .map(UserWeaponEntity::getWeaponId)
+                .collect(Collectors.toList());
+
+        return this.weaponRepository.findAllById(weaponIds)
+                .stream()
+                .map(weaponMapper::from)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<WeaponGame> findUserWeaponsToFight(UUID userId) {
+        var weaponIds = this.userWeaponRepository.findAll(Sort.by("weaponId"))
                 .stream()
                 .filter(e -> e.getUserId().equals(userId))
                 .map(UserWeaponEntity::getWeaponId)
@@ -58,7 +72,7 @@ public class WeaponService {
         var user = this.userService.findOneById(request.getPurchaser());
         var weaponIds = this.findUserWeapons(user.getId())
                 .stream()
-                .map(WeaponGame::getId)
+                .map(WeaponStore::getId)
                 .collect(Collectors.toList());
 
         if (weaponIds.contains(request.getWeapon().getId())) {
@@ -83,10 +97,10 @@ public class WeaponService {
     }
 
     public void init() {
-        var pistol = initWeapon("Pistol", 1, 12, 3, 1, 5, 0);
-        var shotgun = initWeapon("Shotgun", 10, 31, 5, 1, 3, 5000);
-        var katana = initWeapon("Katana", 40, 73, 5, 1, 1, 12000);
-        var blaster = initWeapon("Blaster", 80, 100, 7, 3, 7, 50000);
+        var pistol = initWeapon(1,"Pistol", 1, 12, 3, 1, 5, 0);
+        var shotgun = initWeapon(2,"Shotgun", 10, 31, 5, 1, 3, 5000);
+        var katana = initWeapon(3, "Katana", 40, 73, 5, 1, 1, 12000);
+        var blaster = initWeapon(4,"Blaster", 80, 100, 7, 3, 7, 50000);
 
         var entities = new ArrayList<WeaponEntity>();
         entities.add(pistol);
@@ -97,10 +111,11 @@ public class WeaponService {
         this.weaponRepository.saveAll(entities);
     }
 
-    private WeaponEntity initWeapon(String name, Integer level, Integer damage, Integer cost,
-                                    Integer minRange, Integer maxRange, Integer price)
+    private WeaponEntity initWeapon(Integer id, String name, Integer level, Integer damage,
+                                    Integer cost, Integer minRange, Integer maxRange, Integer price)
     {
         return WeaponEntity.builder()
+                .id(id)
                 .name(name)
                 .level(level)
                 .damage(damage)

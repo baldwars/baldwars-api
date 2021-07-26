@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.fights;
+package fr.esgi.baldwarsapi.domain.fights.models;
 
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import lombok.Data;

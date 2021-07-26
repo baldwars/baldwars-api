@@ -1,6 +1,7 @@
 package fr.esgi.baldwarsapi.domain.fights;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.esgi.baldwarsapi.domain.fights.models.FightOverview;
 import fr.esgi.baldwarsapi.infrastructure.fights.FightEntity;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;

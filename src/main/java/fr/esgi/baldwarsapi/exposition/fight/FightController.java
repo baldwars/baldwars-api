@@ -1,8 +1,8 @@
 package fr.esgi.baldwarsapi.exposition.fight;
 
-import fr.esgi.baldwarsapi.domain.fights.CompilationErrorException;
-import fr.esgi.baldwarsapi.domain.fights.ExecutionErrorException;
-import fr.esgi.baldwarsapi.domain.fights.FightRequest;
+import fr.esgi.baldwarsapi.domain.fights.exceptions.CompilationErrorException;
+import fr.esgi.baldwarsapi.domain.fights.exceptions.ExecutionErrorException;
+import fr.esgi.baldwarsapi.domain.fights.models.FightRequest;
 import fr.esgi.baldwarsapi.domain.fights.FightService;
 import fr.esgi.baldwarsapi.domain.scripts.models.Script;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;

@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.fights;
+package fr.esgi.baldwarsapi.domain.fights.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

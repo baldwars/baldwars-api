@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.fights;
+package fr.esgi.baldwarsapi.domain.fights.exceptions;
 
 public class CompilationErrorException extends RuntimeException {
 

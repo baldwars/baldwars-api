@@ -5,7 +5,6 @@ import fr.esgi.baldwarsapi.domain.fights.exceptions.ExecutionErrorException;
 import fr.esgi.baldwarsapi.domain.fights.models.FightRequest;
 import fr.esgi.baldwarsapi.domain.fights.FightService;
 import fr.esgi.baldwarsapi.domain.fights.models.FightResponse;
-import fr.esgi.baldwarsapi.domain.fights.models.FightTestResponse;
 import fr.esgi.baldwarsapi.domain.scripts.models.Script;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
 import lombok.RequiredArgsConstructor;

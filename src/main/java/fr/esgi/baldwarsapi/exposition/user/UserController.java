@@ -75,15 +75,4 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/experience")
-    public ResponseEntity<UserResponse> gainExperience(@PathVariable UUID id) {
-        try {
-            var user = this.service.gainExperience(id);
-            return ResponseEntity.ok(mapper.to(user));
-
-        } catch (UserNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 }

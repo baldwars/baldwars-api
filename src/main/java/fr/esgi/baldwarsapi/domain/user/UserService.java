@@ -99,7 +99,8 @@ public class UserService {
             updateUser.setXp(Experience.START);
             updateUser.setMaxXp(updateUser.getLevel() * Experience.LEVEL_UP_MULTIPLIER);
 
-            var warrior = this.warriorService.increaseSkillPoints(updateUser.getWarrior());
+            var warrior = this.warriorService
+                    .increaseSkillPoints(updateUser.getLevel(), updateUser.getWarrior());
             updateUser.setWarrior(warrior.getId());
         }
 

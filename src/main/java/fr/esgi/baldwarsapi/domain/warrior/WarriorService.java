@@ -4,7 +4,6 @@ import fr.esgi.baldwarsapi.domain.user.Experience;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.warrior.mappers.WarriorMapper;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
-import fr.esgi.baldwarsapi.exposition.warrior.WarriorRequest;
 import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,8 +46,9 @@ public class WarriorService {
         return this.mapper.from(inserted);
     }
 
-    public Warrior increaseSkillPoints(Integer id) {
-        var warrior = this.findWarriorById(id);
+    public Warrior increaseSkillPoints(Integer level, Integer warriorId) {
+        var warrior = this.findWarriorById(warriorId);
+        warrior.setLevel(level);
         warrior.setSkillPoints(warrior.getSkillPoints() + Experience.SKILL_POINTS);
         var entity = this.mapper.from(warrior);
 

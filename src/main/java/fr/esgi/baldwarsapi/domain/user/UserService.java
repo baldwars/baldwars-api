@@ -84,7 +84,7 @@ public class UserService {
         return new BCryptPasswordEncoder().encode(password);
     }
 
-    public User gainExperience(UUID id) {
+    public void gainExperience(UUID id) {
         var optionalUser = this.repository.findById(id);
       
         if (optionalUser.isEmpty()) {
@@ -108,8 +108,7 @@ public class UserService {
             updateUser.setWarrior(warrior.getId());
         }
 
-        var modified = this.repository.save(updateUser);
-        return mapper.from(modified);
+        this.repository.save(updateUser);
     }
 
     public void updateBaldCoins(UUID id, Integer weaponPrice) {

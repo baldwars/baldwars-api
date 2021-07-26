@@ -18,11 +18,13 @@ import fr.esgi.baldwarsapi.domain.weapons.models.WeaponGame;
 import fr.esgi.baldwarsapi.infrastructure.fights.FightRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class FightService {
     private final ScriptService scriptService;
 
     @SneakyThrows
-    public Object test(Script userScript, String testerName) {
+    public FightTestResponse test(Script userScript, String testerName) {
         var opponentScript = findTesterScript(testerName);
         var phases = this.simulate(userScript, opponentScript).getData();
 
@@ -97,6 +99,15 @@ public class FightService {
         var defender = userMapper.to(userService.findOneById(opponent));
 
         return new FightResponse(inserted.getId(), striker, defender, winner, fight);
+    }
+
+    public List<FightResponse> findUserFightsHistory(UUID userId) {
+        return this.repository.findAll(Sort.by("created"))
+                .stream()
+                .filter(entity -> entity.getStriker().equals(userId)
+                        || entity.getDefender().equals(userId))
+                .map(mapper::from)
+                .collect(Collectors.toList());
     }
 
     private GodBoxResponse simulate(Script userScript, Script opponentScript) {

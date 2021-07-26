@@ -83,7 +83,6 @@ public class ScriptService {
     }
 
     public UUID save(ScriptRequest request) {
-        System.out.println(request);
         try {
             this.findUserScriptByName(request.getOwner(), request.getName());
             throw new ScriptAlreadyExistsException();

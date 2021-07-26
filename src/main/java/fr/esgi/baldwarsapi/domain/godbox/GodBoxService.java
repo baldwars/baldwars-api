@@ -39,7 +39,6 @@ public class GodBoxService {
             return response.get();
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             throw new RuntimeException("An error occurred while zipping folder");
         }
     }

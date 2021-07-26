@@ -63,7 +63,6 @@ public class UserService {
     }
 
     public User findOneByWarrior(Integer warrior) {
-        System.out.println("warrior winner: " + warrior);
         var optional = findAll().stream()
                 .filter(user -> user.getWarrior().getId().equals(warrior))
                 .findFirst();

@@ -1,4 +1,4 @@
-package fr.esgi.baldwarsapi.domain.warrior;
+package fr.esgi.baldwarsapi.domain.warrior.exceptions;
 
 public class WarriorNotFoundException extends RuntimeException {
     public WarriorNotFoundException() {

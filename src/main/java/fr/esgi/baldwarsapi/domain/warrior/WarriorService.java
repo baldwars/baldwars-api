@@ -2,7 +2,11 @@ package fr.esgi.baldwarsapi.domain.warrior;
 
 import fr.esgi.baldwarsapi.domain.user.Experience;
 import fr.esgi.baldwarsapi.domain.user.models.User;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.SkillPointAmountException;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.WarriorAlreadyExistsException;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.WarriorNotFoundException;
 import fr.esgi.baldwarsapi.domain.warrior.mappers.WarriorMapper;
+import fr.esgi.baldwarsapi.domain.warrior.models.SkillRequest;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.infrastructure.warrior.WarriorRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,9 +61,53 @@ public class WarriorService {
         return this.mapper.from(modified);
     }
 
-    public Warrior updateWarrior(Warrior warrior) {
-        var entity = this.mapper.from(warrior);
+    public Warrior updateWarriorSkill(Integer id, SkillRequest request) {
+        var warrior = this.findWarriorById(id);
+
+        var updatedWarrior = this.updateSkill(warrior, request.getSkill(), request.getAmount());
+        var entity = this.mapper.from(updatedWarrior);
         var modified = this.repository.save(entity);
+
         return this.mapper.from(modified);
+    }
+
+    private Warrior updateSkill(Warrior warrior, String skill, Integer amount) {
+        switch (skill) {
+            case "health": {
+                if (amount * SkillCost.HEALTH_COST > warrior.getSkillPoints() || amount * SkillCost.HEALTH_COST < 1) {
+                    throw new SkillPointAmountException();
+                }
+
+                var skillPoints = warrior.getSkillPoints() - amount * SkillCost.HEALTH_COST;
+                warrior.setSkillPoints(skillPoints);
+                var health = warrior.getHealth() + amount * SkillCost.HEALTH_GAIN;
+                warrior.setHealth(health);
+                break;
+            }
+            case "moves": {
+                if (amount * SkillCost.MOVE_COST > warrior.getSkillPoints() || amount * SkillCost.MOVE_COST < 1) {
+                    throw new SkillPointAmountException();
+                }
+
+                var skillPoints = warrior.getSkillPoints() - amount * SkillCost.MOVE_COST;
+                warrior.setSkillPoints(skillPoints);
+                var moves = warrior.getMoves() + amount * SkillCost.MOVE_GAIN;
+                warrior.setMoves(moves);
+                break;
+            }
+            case "actions": {
+                if (amount * SkillCost.ACTION_COST > warrior.getSkillPoints() || amount * SkillCost.ACTION_COST < 1) {
+                    throw new SkillPointAmountException();
+                }
+
+                var skillPoints = warrior.getSkillPoints() - amount * SkillCost.ACTION_COST;
+                warrior.setSkillPoints(skillPoints);
+                var moves = warrior.getMoves() + amount * SkillCost.ACTION_GAIN;
+                warrior.setMoves(moves);
+                break;
+            }
+        }
+
+        return warrior;
     }
 }

@@ -1,8 +1,10 @@
 package fr.esgi.baldwarsapi.exposition.warrior;
 
 import fr.esgi.baldwarsapi.domain.user.UserService;
-import fr.esgi.baldwarsapi.domain.warrior.WarriorNotFoundException;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.SkillPointAmountException;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.WarriorNotFoundException;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
+import fr.esgi.baldwarsapi.domain.warrior.models.SkillRequest;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,13 +33,19 @@ public class WarriorController {
         return new ResponseEntity<>(warrior, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Warrior> updateWarrior(@RequestBody Warrior warrior) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Warrior> updateWarriorSkill(
+            @PathVariable("id") Integer id, @RequestBody SkillRequest request)
+    {
         try {
-            var modified = this.warriorService.updateWarrior(warrior);
-            return ResponseEntity.ok(modified);
-        } catch (WarriorNotFoundException e) {
+            var warrior = this.warriorService.updateWarriorSkill(id, request);
+            return ResponseEntity.ok(warrior);
+
+        } catch (WarriorNotFoundException exception) {
             return  ResponseEntity.notFound().build();
+
+        } catch (SkillPointAmountException exception) {
+            return ResponseEntity.badRequest().build();
         }
     }
 

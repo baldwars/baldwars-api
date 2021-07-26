@@ -4,7 +4,8 @@ import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
-import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
+import fr.esgi.baldwarsapi.domain.weapons.WeaponService;
+import fr.esgi.baldwarsapi.exposition.weapons.PurchaseRequest;
 import fr.esgi.baldwarsapi.infrastructure.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class UserService {
 
     private final WarriorService warriorService;
+    private final WeaponService weaponService;
     private final UserMapper mapper;
     private final UserRepository repository;
 
@@ -80,6 +82,9 @@ public class UserService {
         var warrior = this.warriorService.save(mapper.from(userEntityInserted), body.getWarrior());
         userEntityInserted.setWarrior(warrior.getId());
         userEntityInserted = repository.save(userEntityInserted);
+
+        var weapon = this.weaponService.findById(1);
+        this.weaponService.purchaseWeapon(new PurchaseRequest(userEntityInserted.getId(), weapon));
 
         return mapper.from(userEntityInserted);
     }

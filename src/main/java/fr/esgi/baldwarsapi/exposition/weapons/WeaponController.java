@@ -1,7 +1,7 @@
 package fr.esgi.baldwarsapi.exposition.weapons;
 
+import fr.esgi.baldwarsapi.domain.user.UserService;
 import fr.esgi.baldwarsapi.domain.weapons.WeaponService;
-import fr.esgi.baldwarsapi.domain.weapons.exceptions.NotEnoughBaldCoinsException;
 import fr.esgi.baldwarsapi.domain.weapons.exceptions.UserAlreadyOwnsWeaponException;
 import fr.esgi.baldwarsapi.domain.weapons.exceptions.WeaponNotFoundException;
 import fr.esgi.baldwarsapi.domain.weapons.models.WeaponStore;
@@ -19,6 +19,7 @@ import java.util.UUID;
 public class WeaponController {
 
     private final WeaponService service;
+    private final UserService userService;
 
     @GetMapping("/store")
     public ResponseEntity<List<WeaponStore>> findStoreWeapons() {
@@ -35,13 +36,21 @@ public class WeaponController {
     @PostMapping("/store/purchase")
     public ResponseEntity<?> purchaseWeapon(@RequestBody PurchaseRequest request) {
         try {
+            var user = this.userService.findOneById(request.getPurchaser());
+
+            if (user.getBaldCoins() < request.getWeapon().getPrice()) {
+                return ResponseEntity.badRequest().build();
+            }
+
             this.service.purchaseWeapon(request);
+            this.userService.updateBaldCoins(user.getId(), request.getWeapon().getPrice());
+
             return ResponseEntity.ok().build();
 
         } catch (UserAlreadyOwnsWeaponException exception) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-        } catch (WeaponNotFoundException | NotEnoughBaldCoinsException exception) {
+        } catch (WeaponNotFoundException exception) {
             return ResponseEntity.badRequest().build();
         }
     }

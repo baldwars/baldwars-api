@@ -1,6 +1,5 @@
 package fr.esgi.baldwarsapi.exposition.weapons;
 
-import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.weapons.models.WeaponStore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

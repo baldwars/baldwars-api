@@ -30,7 +30,6 @@ public class WeaponService {
     private final WeaponMapper weaponMapper;
     private final WeaponRepository weaponRepository;
     private final UserWeaponRepository userWeaponRepository;
-    private final UserService userService;
 
     public List<WeaponStore> findStoreWeapons() {
         return this.weaponRepository.findAll(Sort.by("level"))
@@ -53,6 +52,16 @@ public class WeaponService {
 
     }
 
+    public WeaponStore findById(Integer id) {
+        var optional = this.weaponRepository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new WeaponNotFoundException();
+        }
+
+        return weaponMapper.from(optional.get());
+    }
+
     public List<WeaponGame> findUserWeaponsToFight(UUID userId) {
         var weaponIds = this.userWeaponRepository.findAll(Sort.by("weaponId"))
                 .stream()
@@ -69,8 +78,7 @@ public class WeaponService {
     }
 
     public void purchaseWeapon(PurchaseRequest request) {
-        var user = this.userService.findOneById(request.getPurchaser());
-        var weaponIds = this.findUserWeapons(user.getId())
+        var weaponIds = this.findUserWeapons(request.getPurchaser())
                 .stream()
                 .map(WeaponStore::getId)
                 .collect(Collectors.toList());
@@ -85,15 +93,7 @@ public class WeaponService {
             throw new WeaponNotFoundException();
         }
 
-        System.out.println(user);
-        System.out.println(request.getWeapon());
-
-        if (user.getBaldCoins() < request.getWeapon().getPrice()) {
-            throw new NotEnoughBaldCoinsException();
-        }
-
         this.userWeaponRepository.save(userWeaponMapper.from(request));
-        this.userService.updateBaldCoins(user.getId(), request.getWeapon().getPrice());
     }
 
     public void init() {

@@ -1,6 +1,7 @@
 package fr.esgi.baldwarsapi.infrastructure.fights;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class FightEntity {
 
     @Id
@@ -24,6 +26,8 @@ public class FightEntity {
 
     @Column(nullable = false)
     private UUID defender;
+
+    private UUID winner;
 
     @Column(nullable = false)
     private String overview;

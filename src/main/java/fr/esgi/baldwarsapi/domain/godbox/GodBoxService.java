@@ -53,8 +53,6 @@ public class GodBoxService {
             var objMapper = new ObjectMapper();
             var json = objMapper.writeValueAsString(body);
 
-            System.out.println(json.length());
-
             var jsonResponse = Unirest.post(url)
                     .header("accept", "application/json")
                     .header("content-type", "application/json")

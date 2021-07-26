@@ -19,6 +19,7 @@ public class ScriptMapper {
         entity.setOwner(request.getOwner());
         entity.setName(request.getName());
         entity.setContent(Base64.getEncoder().encodeToString(request.getContent().getBytes()));
+        entity.setDefense(request.getIsDefense());
         entity.setCreatedAt(now);
         entity.setLastUpdate(now);
 
@@ -26,7 +27,9 @@ public class ScriptMapper {
     }
 
     public Script from(ScriptEntity entity) {
-        var script = new Script(entity.getId(), entity.getOwner(), entity.getName(), entity.getContent());
+        var script = new Script(entity.getId(), entity.getOwner(), entity.getName(),
+                entity.getContent(), entity.isDefense());
+
         var bytes = Base64.getDecoder().decode(script.getContent());
         var content = new String(bytes, StandardCharsets.UTF_8);
 

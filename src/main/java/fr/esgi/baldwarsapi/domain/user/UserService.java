@@ -52,6 +52,18 @@ public class UserService {
         return optionalUser.get();
     }
 
+    public User findOneByWarrior(Integer warrior) {
+        var optional = findAll().stream()
+                .filter(user -> user.getWarrior().getId().equals(warrior))
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            throw new UserNotFoundException();
+        }
+
+        return optional.get();
+    }
+
     public User addWarrior(User user, String name) {
         var warrior = this.warriorService.save(user, name);
         user.setWarrior(warrior);

@@ -31,7 +31,7 @@ public class GodBoxFileService {
     }
 
     public Path createDirectory(String name) {
-        var directory = new File(root + name);
+        var directory = new File(name);
 
         if (!directory.exists()) {
             directory.mkdirs();

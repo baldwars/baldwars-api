@@ -27,6 +27,9 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "role", nullable = false)
+    private String role;
+
     @Column(name = "elo_points", nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     private Integer eloPoints;
 

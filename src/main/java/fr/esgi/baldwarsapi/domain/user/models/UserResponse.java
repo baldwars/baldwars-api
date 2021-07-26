@@ -15,6 +15,7 @@ public class UserResponse {
     private String username;
     private String firstName;
     private String lastName;
+    private String role;
     private Integer eloPoints;
     private Integer xp;
     private Integer maxXp;

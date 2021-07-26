@@ -4,7 +4,7 @@ import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
 import fr.esgi.baldwarsapi.domain.user.Experience;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
-import fr.esgi.baldwarsapi.domain.warrior.WarriorNotFoundException;
+import fr.esgi.baldwarsapi.domain.warrior.exceptions.WarriorNotFoundException;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
 import fr.esgi.baldwarsapi.domain.warrior.models.Warrior;
 import fr.esgi.baldwarsapi.infrastructure.user.UserEntity;
@@ -34,6 +34,7 @@ public class UserMapper {
                 entity.getLastName(),
                 entity.getEmail(),
                 entity.getPassword(),
+                entity.getRole(),
                 entity.getEloPoints(),
                 entity.getLevel(),
                 entity.getXp(),
@@ -49,6 +50,7 @@ public class UserMapper {
                 body.getUsername(),
                 body.getFirstName(),
                 body.getLastName(),
+                "user",
                 0,
                 body.getEmail(),
                 body.getPassword(),
@@ -77,6 +79,7 @@ public class UserMapper {
         entity.setLevel(user.getLevel());
         entity.setWarrior(user.getWarrior().getId());
         entity.setBaldCoins(user.getBaldCoins());
+        entity.setRole(user.getRole());
 
         return entity;
     }
@@ -87,6 +90,7 @@ public class UserMapper {
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
+                user.getRole(),
                 user.getEloPoints(),
                 user.getXp(),
                 user.getMaxXp(),

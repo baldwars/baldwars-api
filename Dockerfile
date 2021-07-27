@@ -26,8 +26,5 @@ USER spring:spring
 WORKDIR /home/spring
 
 COPY game-engine ./game-engine
-CMD chmod 777 ./game-engine/
-CMD mkdir ./game-engine/resources
-CMD chmod 777 ./game-engine/resources/
 
 CMD java -jar ./app.jar

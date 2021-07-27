@@ -3,6 +3,7 @@ package fr.esgi.baldwarsapi.domain.user;
 import fr.esgi.baldwarsapi.domain.user.mappers.UserMapper;
 import fr.esgi.baldwarsapi.domain.user.models.User;
 import fr.esgi.baldwarsapi.domain.authentication.RegisterRequestBody;
+import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import fr.esgi.baldwarsapi.domain.warrior.WarriorService;
 import fr.esgi.baldwarsapi.domain.weapons.WeaponService;
 import fr.esgi.baldwarsapi.exposition.weapons.PurchaseRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,19 @@ public class UserService {
         }
 
         return mapper.from(optionalUser.get());
+    }
+
+    public List<UserResponse> findOpponentsForUser(UUID userId) {
+        var striker = this.findOneById(userId);
+
+        return this.findAll().stream()
+                .filter(user -> !user.getId().equals(striker.getId()))
+                .filter(user -> user.getLevel() >= striker.getLevel() - 1)
+                .filter(user -> user.getLevel() <= striker.getLevel() + 1)
+                .filter(user -> user.getEloPoints() >= striker.getEloPoints() - 10 * striker.getLevel())
+                .filter(user -> user.getEloPoints() <= striker.getEloPoints() + 10 * striker.getLevel())
+                .map(mapper::to)
+                .collect(Collectors.toList());
     }
 
     public User findOneByUsername(String username) {
@@ -110,7 +125,7 @@ public class UserService {
         var updateUser = optionalUser.get();
 
         updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
-        updateUser.setEloPoints(updateUser.getEloPoints() + Experience.ELIO_POINTS_WIN);
+        updateUser.setEloPoints(updateUser.getEloPoints() + Experience.ELO_POINTS_WIN);
 
         if (updateUser.getXp() >= updateUser.getMaxXp()) {
             var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());

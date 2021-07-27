@@ -7,6 +7,7 @@ import fr.esgi.baldwarsapi.domain.fights.FightService;
 import fr.esgi.baldwarsapi.domain.fights.models.FightResponse;
 import fr.esgi.baldwarsapi.domain.scripts.models.Script;
 import fr.esgi.baldwarsapi.domain.user.UserNotFoundException;
+import fr.esgi.baldwarsapi.domain.user.models.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -37,6 +37,17 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("user/{id}/opponents")
+    public ResponseEntity<List<UserResponse>> findOpponentsForUser(@PathVariable("id") UUID userId) {
+        try {
+            var users = this.service.findOpponentsForUser(userId);
+            return ResponseEntity.ok(users);
+
+        } catch (UserNotFoundException exception) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> findOneById(@PathVariable UUID id) {
         try {

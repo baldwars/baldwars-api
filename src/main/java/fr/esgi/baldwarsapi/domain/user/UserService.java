@@ -55,8 +55,8 @@ public class UserService {
                 .filter(user -> !user.getId().equals(striker.getId()))
                 .filter(user -> user.getLevel() >= striker.getLevel() - 1)
                 .filter(user -> user.getLevel() <= striker.getLevel() + 1)
-                .filter(user -> user.getEloPoints() >= striker.getEloPoints() - 10 * striker.getLevel())
-                .filter(user -> user.getEloPoints() <= striker.getEloPoints() + 10 * striker.getLevel())
+//                .filter(user -> user.getEloPoints() >= striker.getEloPoints() - 10 * striker.getLevel())
+//                .filter(user -> user.getEloPoints() <= striker.getEloPoints() + 10 * striker.getLevel())
                 .map(mapper::to)
                 .collect(Collectors.toList());
     }
@@ -126,6 +126,7 @@ public class UserService {
 
         updateUser.setXp(updateUser.getXp() + Experience.GAIN * updateUser.getLevel());
         updateUser.setEloPoints(updateUser.getEloPoints() + Experience.ELO_POINTS_WIN);
+        updateUser.setBaldCoins(updateUser.getBaldCoins() + Experience.BALD_COINS_WIN);
 
         if (updateUser.getXp() >= updateUser.getMaxXp()) {
             var xp = updateUser.getMaxXp() + (updateUser.getXp() - updateUser.getMaxXp());

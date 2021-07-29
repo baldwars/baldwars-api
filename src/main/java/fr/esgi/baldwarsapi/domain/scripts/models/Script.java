@@ -1,5 +1,6 @@
 package fr.esgi.baldwarsapi.domain.scripts.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class Script {
     private UUID owner;
     private String name;
     private String content;
+    @JsonProperty("isDefense")
     private boolean isDefense;
 
 }
